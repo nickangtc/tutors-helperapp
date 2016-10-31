@@ -2,16 +2,10 @@
   Welcome back,
   = @user.name
 
-.calendar
-  = month_calendar events: @requests do |date, requests|
-    - 
-
-<%= month_calendar events: @requests do |date, requests| %>
-  <% if (0..2).include?(requests.length) %>
-    <%= link_to date.to_formatted_s(:short), new_request_path(:date => date), remote: true %>
-  <% elsif (2..4).include?(requests.length) %>
-    <%= link_to date.to_formatted_s(:short), new_request_path(:date => date), remote: true, class: "quite-busy" %>
-  <% else %>
-    <%= link_to date.to_formatted_s(:short), new_request_path(:date => date), remote: true, class: "very-busy" %>
-  <% end %>
-<% end %>
+.cal
+  = month_calendar events: @lessons do |date, lessons|
+    = date.to_formatted_s(:short)
+    - lessons.each do |lesson|
+      %h4
+        Lesson
+        = lesson.start_time.to_formatted_s(:short)
