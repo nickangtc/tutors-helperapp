@@ -5,5 +5,5 @@ Rails.application.routes.draw do
 
   get '/users/:id', to: 'users#show'
 
-  root 'posts#index'
+  root 'main#index'
 end

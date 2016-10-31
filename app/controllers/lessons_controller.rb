@@ -1,6 +1,5 @@
 class LessonsController < ApplicationController
   def new
-    puts "Landed on Lessons#new"
     @lesson = Lesson.new
     # values sent in with Ajax Get from calendar
     @lesson[:start_time] = params[:date]
