@@ -20,7 +20,7 @@ class LessonsController < ApplicationController
 
     if @lesson.save
       flash[:success] = "Lesson saved."
-  		redirect_to root_path
+  		redirect_to '/users/' + current_user.id.to_s
   	else
       flash[:error] = "Something went wrong. Please try again."
   		render :new
