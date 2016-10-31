@@ -2,7 +2,7 @@
   Welcome back,
   = @user.name
 
-.cal
+.ui.main.container.stackable.grid.centered
   = month_calendar events: @lessons do |date, lessons|
     = date.to_formatted_s(:short)
     - lessons.each do |lesson|

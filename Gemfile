@@ -34,6 +34,8 @@ gem 'simple_form', '~> 3.3', '>= 3.3.1'
 gem 'devise', '~> 4.2'
 gem 'simple_calendar', '~> 2.2'
 
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
