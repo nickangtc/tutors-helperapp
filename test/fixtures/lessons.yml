@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student_uid: 1
+  start_time: 2016-10-31 14:53:12
+  attended: false
+  paid: false
+  student_notes: MyText
+  private_notes: MyText
+
+two:
+  student_uid: 1
+  start_time: 2016-10-31 14:53:12
+  attended: false
+  paid: false
+  student_notes: MyText
+  private_notes: MyText
