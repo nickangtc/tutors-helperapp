@@ -1,11 +1,17 @@
-%h2
-  Welcome back,
-  = @user.name
+
 
 .ui.main.container.stackable.grid.centered
-  = month_calendar events: @lessons do |date, lessons|
-    = date.to_formatted_s(:short)
-    - lessons.each do |lesson|
-      %h4
-        Lesson
-        = lesson.start_time.to_formatted_s(:short)
+  %h2
+    Welcome back,
+    = @user.name
+
+  .row
+    .ten.wide.column#user-calendar
+      = month_calendar events: @lessons do |date, lessons|
+        = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
+        - lessons.each do |lesson|
+          %h4
+            Lesson
+
+    .six.wide.column#new-event-form
+      %h3 Add a new event

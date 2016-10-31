@@ -1,0 +1,5 @@
+= simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
+  .field
+    = f.label :start_time, label: "Choose a date and time"
+    = f.datetime_field :start_time
+  = f.button :submit, :class => "ui teal button"
