@@ -15,6 +15,7 @@ class PostsController < ApplicationController
   end
 
   def create
+    puts "CREATING POST -==============================="
     @post = Post.new(post_params)
 
     if @post.save

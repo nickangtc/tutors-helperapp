@@ -13,13 +13,14 @@ class LessonsController < ApplicationController
     # set default values
     @lesson[:attended] = false
     @lesson[:paid] = false
-    finish_time = (lesson_params[:start_time].to_f() + 7200).to_formatted_s
-    @lesson[:end_time] = finish_time
     @lesson[:user_id] = current_user.id
+    # # uncomment if adding end_time attribute to lessons
+    # finish_time = (lesson_params[:start_time].to_f() + 7200).to_formatted_s
+    # @lesson[:end_time] = finish_time
 
     if @lesson.save
       flash[:success] = "Lesson saved."
-  		redirect_to lessons_path(@lesson)
+  		redirect_to root_path
   	else
       flash[:error] = "Something went wrong. Please try again."
   		render :new
@@ -29,6 +30,6 @@ class LessonsController < ApplicationController
   private
 
   def lesson_params
-    params.require(:post).permit(:start_time)
+    params.require(:lesson).permit(:start_time)
   end
 end
