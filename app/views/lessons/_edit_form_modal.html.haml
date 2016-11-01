@@ -1,0 +1,27 @@
+%i.close.icon
+
+.header
+  Lesson Follow-Up
+
+.content
+  %h2
+    Student:
+    = User.find(@lesson.user_id).name
+  = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
+    .field
+      = f.label :attended, label: "Attendance"
+      = f.text_field :attended
+    .field
+      = f.label :student_notes, label: "Notes for Student"
+      = f.text_field :student_notes
+    .field
+      = f.label :private_notes, label: "Private Notes"
+      = f.text_field :private_notes
+    .field
+      = f.label :paid, label: "Paid Fees?"
+      = f.text_field :paid
+
+    = f.button :submit, "Mark Complete", :class => "ui teal button"
+
+.actions
+  = button_to "Cancel Lesson", lesson_path(@lesson), method: :delete, data: { confirm: "Are you sure?" }, class: "ui button"

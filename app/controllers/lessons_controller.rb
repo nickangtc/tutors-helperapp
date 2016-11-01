@@ -1,5 +1,5 @@
 class LessonsController < ApplicationController
-  before_action :find_lesson, only: [:show, :update, :destroy]
+  before_action :find_lesson, only: [:show, :update, :destroy, :edit]
 
   def new
     @lesson = Lesson.new
@@ -45,7 +45,7 @@ class LessonsController < ApplicationController
   def update
     if @lesson.update(lesson_params)
       flash[:success] = "Lesson details amended."
-      redirect_to '/users/' + current_user.id.to_s
+      redirect_back(fallback_location: root_path)
     else
       flash[:error] = "Something went wrong. Please try again."
       render root_path
@@ -58,21 +58,21 @@ class LessonsController < ApplicationController
     redirect_to '/users/' + current_user.id.to_s
   end
 
-  def edit
-    @lesson = Lesson.find(params[:id])
-  end
-
   # For tutor's access only
   # View all classes that have passed
   def index
     # (10 years is a suitably long time to not matter chasing debts...)
-    @completed_lessons = Lesson.where( start_time: 10.years.ago..Time.now ).order("start_time DESC")
+    @lessons_to_debrief = Lesson.where( start_time: 10.years.ago..Time.now, attended: false ).order("start_time DESC")
+    @completed_lessons = Lesson.where( start_time: 1.month.ago..Time.now ).where( attended: true ).order("start_time DESC")
+  end
+
+  def edit
   end
 
   private
 
   def lesson_params
-    params.require(:lesson).permit(:start_time, :user_id)
+    params.require(:lesson).permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid)
   end
 
   def find_lesson

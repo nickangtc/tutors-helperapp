@@ -1,9 +1,43 @@
 .ui.large.modal#lesson_modal(style="display: none;")
 
-%h1 Debrief
-%h3 Write post-lesson notes to students, follow up on payments and more.
+%p.success= flash[:success]
+%p.error= flash[:error]
 
-%table.ui.table
+%h1 Lesson Follow Up
+%h3 Only lessons that have passed will show up here.
+
+%table.ui.table.yellow
+  %thead
+    %tr
+      %th Lesson with
+      %th Date
+      %th Notes to Student
+      %th Private Notes
+      %th Fees Paid?
+      %th Manage
+  %tbody
+    - @lessons_to_debrief.each do |lesson|
+      %tr
+        %td
+          = User.find(lesson.user_id).name
+        %td
+          = lesson.start_time.to_formatted_s(:short)
+        %td
+          = lesson.student_notes
+        %td
+          = lesson.private_notes
+        %td
+          - if lesson.paid
+            Yes
+          - elsif !lesson.paid
+            No
+        %td.ui.selectable
+          = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
+
+-# RECENTLY COMPLETED LESSONS
+%h2 Recently Completed
+
+%table.ui.table.green
   %thead
     %tr
       %th Lesson with
@@ -20,9 +54,9 @@
         %td
           = lesson.start_time.to_formatted_s(:short)
         %td
-          Student notes content
+          = lesson.student_notes
         %td
-          Private notes content
+          = lesson.private_notes
         %td
           - if lesson.paid
             Yes
