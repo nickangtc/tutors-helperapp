@@ -58,6 +58,13 @@ class LessonsController < ApplicationController
     redirect_to '/users/' + current_user.id.to_s
   end
 
+  # For tutor's access only
+  # View all classes that have passed
+  def index
+    # (10 years is a suitably long time to not matter chasing debts...)
+    @completed_lessons = Lesson.where( start_time: 10.years.ago..Time.now ).order("start_time DESC")
+  end
+
   private
 
   def lesson_params

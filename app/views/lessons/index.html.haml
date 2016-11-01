@@ -1,0 +1,30 @@
+%h1 Debrief
+%h3 Write post-lesson notes to students, follow up on payments and more.
+
+%table.ui.table
+  %thead
+    %tr
+      %th Lesson with
+      %th Date
+      %th Notes to Student
+      %th Private Notes
+      %th Fees Paid?
+      %th Manage
+  %tbody
+    - @completed_lessons.each do |lesson|
+      %tr
+        %td
+          = User.find(lesson.user_id).name
+        %td
+          = lesson.start_time.to_formatted_s(:short)
+        %td
+          Student notes content
+        %td
+          Private notes content
+        %td
+          - if lesson.paid
+            Yes
+          - elsif !lesson.paid
+            No
+        %td.ui.selectable
+          = link_to "Update", lesson
