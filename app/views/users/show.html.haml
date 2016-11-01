@@ -6,8 +6,7 @@
       = month_calendar events: @lessons do |date, lessons|
         = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
         - lessons.each do |lesson|
-          %h4
-            = link_to "Lesson", lesson_path(lesson), remote: true 
+          = link_to "Lesson", lesson_path(lesson), remote: true
 
     .six.wide.column#event-form
       %h3 Add a new event
