@@ -12,8 +12,8 @@
       %th Lesson with
       %th Date
       %th Notes to Student
-      %th Private Notes
-      %th Fees Paid?
+      %th Private notes
+      %th Paid fees?
       %th Manage
   %tbody
     - @lessons_to_debrief.each do |lesson|
@@ -37,14 +37,14 @@
 -# RECENTLY COMPLETED LESSONS
 %h2 Recently Completed
 
-%table.ui.table.green
+%table.ui.table.teal
   %thead
     %tr
       %th Lesson with
       %th Date
       %th Notes to Student
-      %th Private Notes
-      %th Fees Paid?
+      %th Private notes
+      %th Paid fees?
       %th Manage
   %tbody
     - @completed_lessons.each do |lesson|

@@ -7,19 +7,37 @@
   %h2
     Student:
     = User.find(@lesson.user_id).name
+  %p
+    For Lesson on:
+    = @lesson.start_time.to_formatted_s(:short)
   = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
-    .field
-      = f.label :attended, label: "Attendance"
-      = f.text_field :attended
+    .fields.inline
+      .field
+        .ui.radio.checkbox
+          = f.radio_button :attended, true
+          = f.label :attended, "Attended", value: "true"
+      .field
+        .ui.radio.checkbox
+          = f.radio_button :attended, false
+          = f.label :attended, "Missed", value: "false"
+
     .field
       = f.label :student_notes, label: "Notes for Student"
-      = f.text_field :student_notes
+      = f.text_area :student_notes, size: "24x3"
     .field
       = f.label :private_notes, label: "Private Notes"
-      = f.text_field :private_notes
+      = f.text_area :private_notes, size: "24x3"
     .field
-      = f.label :paid, label: "Paid Fees?"
-      = f.text_field :paid
+      = f.label :paid, label: "Has student Paid for this Lesson?"
+    .fields.inline
+      .field
+        .ui.radio.checkbox
+          = f.radio_button :paid, true
+          = f.label :paid, "Paid", value: "true"
+      .field
+        .ui.radio.checkbox
+          = f.radio_button :paid, false
+          = f.label :paid, "Not yet", value: "false"
 
     = f.button :submit, "Mark Complete", :class => "ui teal button"
 
