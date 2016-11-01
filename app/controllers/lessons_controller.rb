@@ -1,4 +1,6 @@
 class LessonsController < ApplicationController
+  before_action :find_lesson, only: [:show, :update, :destroy]
+
   def new
     @lesson = Lesson.new
     # values sent in with Ajax Get from calendar
@@ -26,10 +28,33 @@ class LessonsController < ApplicationController
   	end
   end
 
+  def show
+  end
+
+  def update
+    if @lesson.update(lesson_params)
+      flash[:success] = "Lesson details amended."
+      redirect_to '/users/' + current_user.id.to_s
+    else
+      flash[:error] = "Something went wrong. Please try again."
+      render root_path
+    end
+  end
+
+  def destroy
+    @lesson.destroy
+    flash[:success] = "Lesson cancelled. Don't give up on learning!"
+    redirect_to '/users/' + current_user.id.to_s
+  end
+
   private
 
   def lesson_params
     params.require(:lesson).permit(:start_time)
+  end
+
+  def find_lesson
+    @lesson = Lesson.find(params[:id])
   end
 
   def random_quote

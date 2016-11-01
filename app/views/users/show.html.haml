@@ -7,9 +7,9 @@
         = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
         - lessons.each do |lesson|
           %h4
-            Lesson
+            = link_to "Lesson", lesson_path(lesson), remote: true 
 
-    .six.wide.column#new-event-form
+    .six.wide.column#event-form
       %h3 Add a new event
       %p.success= flash[:success]
       %p.error= flash[:error]
