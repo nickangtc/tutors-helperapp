@@ -18,7 +18,7 @@ class LessonsController < ApplicationController
     # @lesson[:end_time] = finish_time
 
     if @lesson.save
-      flash[:success] = "Lesson saved."
+      flash[:success] = "Lesson booked with TEACHER_NAME"
   		redirect_to '/users/' + current_user.id.to_s
   	else
       flash[:error] = "Something went wrong. Please try again."

@@ -1,12 +1,18 @@
 .ui.main.container.stackable.grid.centered
-  %h2
-    Welcome back,
-    = @user.name
-
-  .row
-    .ten.wide.column#user-calendar
-      .row
-        %h3 Lessons follow-up
-    .six.wide.column#new-event-form
-      .row
-        %h3 Notifications
+  - if @user
+    %h2
+      Welcome back,
+      = @user.name
+    -# FRONTPAGE UI
+    .row
+      .ten.wide.column#user-calendar
+        .row
+          %h3 Lessons follow-up
+      .six.wide.column#new-event-form
+        .row
+          %h3 Notifications
+  - else
+    .ten.wide.column#landing-page
+      %h1
+        Welcome to Tutor's Helper
+      %p LANDING PAGE COPY

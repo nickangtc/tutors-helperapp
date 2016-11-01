@@ -17,7 +17,7 @@
       |
       = link_to "Forum", posts_path
       |
-      = link_to "Logout", destroy_user_session_path
+      = link_to "Logout", destroy_user_session_path, :method => :delete
 
     - else
       = link_to "Sign Up", new_user_registration_path
@@ -25,6 +25,8 @@
       = link_to "Log In", new_user_session_path
 
     -# FLASH MESSAGES
+    %p.success= flash[:success]
+    %p.error= flash[:error]
     %p.notice= notice
     %p.alert= alert
 
