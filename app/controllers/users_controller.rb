@@ -1,8 +1,16 @@
 class UsersController < ApplicationController
   def show
-    @user = User.find(params[:id])
-    @lessons = @user.lessons
-    @lesson = Lesson.new
+    @user = current_user
+
+    if @user.admin
+      @lessons = Lesson.all
+      @lesson = Lesson.new
+    elsif !@user.admin
+      # @user = User.find(params[:id])
+      @tutor_name = User.find_by( admin: true ).name
+      @lessons = Lesson.all
+      @lesson = Lesson.new
+    end
   end
 
 end
