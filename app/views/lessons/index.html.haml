@@ -1,3 +1,5 @@
+.ui.large.modal#lesson_modal(style="display: none;")
+
 %h1 Debrief
 %h3 Write post-lesson notes to students, follow up on payments and more.
 
@@ -27,4 +29,4 @@
           - elsif !lesson.paid
             No
         %td.ui.selectable
-          = link_to "Update", lesson
+          = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"

@@ -58,6 +58,10 @@ class LessonsController < ApplicationController
     redirect_to '/users/' + current_user.id.to_s
   end
 
+  def edit
+    @lesson = Lesson.find(params[:id])
+  end
+
   # For tutor's access only
   # View all classes that have passed
   def index
