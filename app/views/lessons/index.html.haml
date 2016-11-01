@@ -1,66 +1,98 @@
-.ui.large.modal#lesson_modal(style="display: none;")
-
 %p.success= flash[:success]
 %p.error= flash[:error]
 
-%h1 Lesson Follow Up
-%h3 Only lessons that have passed will show up here.
+- if !current_user.admin
+  .ui.large.modal#lesson_modal(style="display: none;")
 
-%table.ui.table.yellow
-  %thead
-    %tr
-      %th Lesson with
-      %th Date
-      %th Notes to Student
-      %th Private notes
-      %th Paid fees?
-      %th Manage
-  %tbody
-    - @lessons_to_debrief.each do |lesson|
-      %tr
-        %td
-          = User.find(lesson.user_id).name
-        %td
-          = lesson.start_time.to_formatted_s(:short)
-        %td
-          = lesson.student_notes
-        %td
-          = lesson.private_notes
-        %td
-          - if lesson.paid
-            Yes
-          - elsif !lesson.paid
-            No
-        %td.ui.selectable
-          = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
+  .ui.container.stackable.centered
+    %h1 Notes
+    %h3
+      From your teacher with
+      %i.heart.icon .
 
--# RECENTLY COMPLETED LESSONS
-%h2 Recently Completed
+    %h3
+      Notes count:
+      = @lessons.length
 
-%table.ui.table.teal
-  %thead
-    %tr
-      %th Lesson with
-      %th Date
-      %th Notes to Student
-      %th Private notes
-      %th Paid fees?
-      %th Manage
-  %tbody
-    - @completed_lessons.each do |lesson|
-      %tr
-        %td
-          = User.find(lesson.user_id).name
-        %td
-          = lesson.start_time.to_formatted_s(:short)
-        %td
-          = lesson.student_notes
-        %td
-          = lesson.private_notes
-        %td
-          - if lesson.paid
-            Yes
-          - elsif !lesson.paid
-            No
-        %td.ui.selectable
-          = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
+    .ui.three.column.grid
+      - @lessons.each do |lesson|
+        .column
+          .ui.fluid.card
+            .content
+              .header
+                Class on
+                = lesson.start_time.to_formatted_s(:short)
+              .meta
+                = time_ago_in_words(lesson.updated_at)
+                ago
+              .description
+                %p= lesson.student_notes
+            .ui.bottom.attached.button
+              Mark as read
+
+
+- elsif current_user.admin
+  .ui.large.modal#lesson_modal(style="display: none;")
+
+  .ui.container.stackable.centered
+    %h1 Lesson Follow Up
+    %h3 Only lessons that have passed will show up here.
+
+    %table.ui.table.yellow
+      %thead
+        %tr
+          %th Lesson with
+          %th Date
+          %th Notes to Student
+          %th Private notes
+          %th Paid fees?
+          %th Manage
+      %tbody
+        - @lessons_to_debrief.each do |lesson|
+          %tr
+            %td
+              = User.find(lesson.user_id).name
+            %td
+              = lesson.start_time.to_formatted_s(:short)
+            %td
+              = lesson.student_notes
+            %td
+              = lesson.private_notes
+            %td
+              - if lesson.paid
+                Yes
+              - elsif !lesson.paid
+                No
+            %td.ui.selectable
+              = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
+
+    -# RECENTLY COMPLETED LESSONS
+    %h2 Recently Completed
+
+    %table.ui.table.teal
+      %thead
+        %tr
+          %th Lesson with
+          %th Date
+          %th Notes to Student
+          %th Private notes
+          %th Paid fees?
+          %th Manage
+      %tbody
+        - @completed_lessons.each do |lesson|
+          %tr
+            %td
+              = User.find(lesson.user_id).name
+            %td
+              = lesson.start_time.to_formatted_s(:short)
+            %td
+              = lesson.student_notes
+            %td
+              = lesson.private_notes
+            %td
+              - if lesson.paid
+                Yes
+              - elsif !lesson.paid
+                No
+            %td.ui.selectable
+              = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"

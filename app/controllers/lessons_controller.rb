@@ -61,9 +61,13 @@ class LessonsController < ApplicationController
   # For tutor's access only
   # View all classes that have passed
   def index
-    # (10 years is a suitably long time to not matter chasing debts...)
-    @lessons_to_debrief = Lesson.where( start_time: 10.years.ago..Time.now, attended: false ).order("start_time DESC")
-    @completed_lessons = Lesson.where( start_time: 1.month.ago..Time.now ).where( attended: true ).order("start_time DESC")
+    if current_user.admin
+      # (10 years is a suitably long time to not matter chasing debts...)
+      @lessons_to_debrief = Lesson.where( start_time: 10.years.ago..Time.now, attended: false ).order("start_time DESC")
+      @completed_lessons = Lesson.where( start_time: 1.month.ago..Time.now ).where( attended: true ).order("start_time DESC")
+    else
+      @lessons = current_user.lessons.where.not( student_notes: nil )
+    end
   end
 
   def edit

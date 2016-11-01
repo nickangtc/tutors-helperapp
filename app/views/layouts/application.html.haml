@@ -13,15 +13,19 @@
       %strong
         = link_to current_user.name, root_path
       |
-      = link_to "Calendar", '/users/' + current_user.id.to_s
-      |
       = link_to "Forum", posts_path
       |
       = link_to "Logout", destroy_user_session_path, :method => :delete
 
       - if current_user.admin
         |
+        = link_to "Calendar", '/users/' + current_user.id.to_s
+        |
         = link_to "Follow Up", lessons_path
+
+      - elsif !current_user.admin
+        |
+        = link_to "Notes", lessons_path
 
     - else
       = link_to "Sign Up", new_user_registration_path
