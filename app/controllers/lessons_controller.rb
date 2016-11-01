@@ -30,7 +30,7 @@ class LessonsController < ApplicationController
         flash[:success] = "Lesson created. Your student will be notified. Happy teaching!"
       elsif !current_user.admin
         tutor_name = User.find_by( admin: true ).name
-        flash[:success] = "Lesson booked with #{tutor_name}. " + random_quote
+        flash[:success] = "Lesson booked with #{tutor_name}. #{random_quote()}"
       end
       redirect_to '/users/' + current_user.id.to_s
   	else
@@ -94,10 +94,10 @@ class LessonsController < ApplicationController
 
   def random_quote
     quotes = [
-      "Study smart!",
-      "Keep up the passion!",
-      "Keep doing what you do.",
-      "Any fool can know. The point is to understand. (Albert Einstein)"
+      'Study smart!',
+      'Keep up the passion!',
+      'Keep doing what you do.',
+      '"The point is to understand."'
     ]
     rn = Random.new
     quotes[rn.rand(0..quotes.length)]
