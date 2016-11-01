@@ -1,5 +1,5 @@
-.ui.main.container.stackable.grid.centered
-  - if @user
+- if @user.admin
+  .ui.main.container.stackable.grid.centered
     %h2
       Welcome back,
       = @user.name
@@ -11,7 +11,9 @@
       .six.wide.column#notifications
         .row
           %h3 Notifications
-  - else
+- else
+  -# Default to Landing Page
+  .ui.main.container.stackable.grid.centered
     .ten.wide.column#landing-page
       %h1
         Welcome to Tutor's Helper
