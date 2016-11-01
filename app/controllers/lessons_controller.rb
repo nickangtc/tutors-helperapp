@@ -18,7 +18,7 @@ class LessonsController < ApplicationController
     # @lesson[:end_time] = finish_time
 
     if @lesson.save
-      flash[:success] = "Lesson booked with TEACHER_NAME"
+      flash[:success] = "Lesson booked with TEACHER_NAME. " + random_quote
   		redirect_to '/users/' + current_user.id.to_s
   	else
       flash[:error] = "Something went wrong. Please try again."
@@ -30,5 +30,16 @@ class LessonsController < ApplicationController
 
   def lesson_params
     params.require(:lesson).permit(:start_time)
+  end
+
+  def random_quote
+    quotes = [
+      "Study smart!",
+      "Keep up the passion!",
+      "Keep doing what you do.",
+      "Any fool can know. The point is to understand. (Albert Einstein)"
+    ]
+    rn = Random.new
+    quotes[rn.rand(0..quotes.length)]
   end
 end
