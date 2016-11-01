@@ -1,5 +1,5 @@
 
-- if !(@user.admin)
+- if (@user.admin == false)
   .ui.main.container.stackable.grid.centered
     %h2
       Schedule of tutor -
@@ -11,7 +11,7 @@
           = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
           - lessons.each do |lesson|
             - if lesson.user_id == @user.id
-              = link_to "Lesson", lesson_path(lesson), remote: true, class: 'ui'
+              = link_to "Lesson", lesson_path(lesson), remote: true, class: "ui"
             - else
               = "Lesson"
 
@@ -29,7 +29,7 @@
         = month_calendar events: @lessons do |date, lessons|
           = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
           - lessons.each do |lesson|
-            = link_to "Lesson", lesson_path(lesson), remote: true
+            = link_to "Lesson", lesson_path(lesson), remote: true, class: "ui"
 
       .six.wide.column#event-form
         %h3 Add a new event

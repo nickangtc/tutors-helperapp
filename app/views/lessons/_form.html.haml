@@ -1,5 +1,18 @@
-= simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
-  .field
-    = f.label :start_time, label: "Choose a date and time"
-    = f.datetime_field :start_time
-  = f.button :submit, "Confirm Lesson", :class => "ui teal button"
+- if @user.admin == false
+  = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
+    .field
+      = f.label :start_time, label: "Choose a date and time"
+      = f.datetime_field :start_time
+    = f.button :submit, "Confirm Lesson", :class => "ui teal button"
+
+- elsif @user.admin
+  = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
+    .field
+      = f.label :start_time, label: "Choose a date and time"
+      = f.datetime_field :start_time
+
+    .field
+      = f.label "Which Student?"
+      = f.select(:user_id, User.all.collect {|x| [x.name, x.id]})
+
+    = f.button :submit, "Confirm Lesson", :class => "ui teal button"

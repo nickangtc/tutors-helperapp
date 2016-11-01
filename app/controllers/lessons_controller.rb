@@ -5,8 +5,14 @@ class LessonsController < ApplicationController
     @lesson = Lesson.new
     # values sent in with Ajax Get from calendar
     @lesson[:start_time] = params[:date]
-    @current_user = current_user
+    @user = current_user
     @selected_date = params[:date]
+
+    # For dropdown selection if user is admin
+    # to select which student to create lesson for
+    if current_user.admin
+      @users = User.all
+    end
   end
 
   def create
@@ -20,8 +26,13 @@ class LessonsController < ApplicationController
     # @lesson[:end_time] = finish_time
 
     if @lesson.save
-      flash[:success] = "Lesson booked with TEACHER_NAME. " + random_quote
-  		redirect_to '/users/' + current_user.id.to_s
+      if current_user.admin
+        flash[:success] = "Lesson created. Your student will be notified. Happy teaching!"
+      elsif !current_user.admin
+        tutor_name = User.find_by( admin: true ).name
+        flash[:success] = "Lesson booked with #{tutor_name}. " + random_quote
+      end
+      redirect_to '/users/' + current_user.id.to_s
   	else
       flash[:error] = "Something went wrong. Please try again."
   		render :new
@@ -50,7 +61,7 @@ class LessonsController < ApplicationController
   private
 
   def lesson_params
-    params.require(:lesson).permit(:start_time)
+    params.require(:lesson).permit(:start_time, :user_id)
   end
 
   def find_lesson
