@@ -17,4 +17,6 @@ Rails.application.routes.draw do
   # Frontpage if logged in
   get '/users/:id', to: 'users#show'
 
+  put '/lesson/update/:id', to: 'lessons#mark_note_as_read', as: :lesson_update
+
 end

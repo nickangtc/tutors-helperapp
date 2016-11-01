@@ -1,5 +1,5 @@
 class LessonsController < ApplicationController
-  before_action :find_lesson, only: [:show, :update, :destroy, :edit]
+  before_action :find_lesson, only: [:show, :update, :destroy, :edit, :mark_note_as_read]
 
   def new
     @lesson = Lesson.new
@@ -63,20 +63,29 @@ class LessonsController < ApplicationController
   def index
     if current_user.admin
       # (10 years is a suitably long time to not matter chasing debts...)
-      @lessons_to_debrief = Lesson.where( start_time: 10.years.ago..Time.now, attended: false ).order("start_time DESC")
-      @completed_lessons = Lesson.where( start_time: 1.month.ago..Time.now ).where( attended: true ).order("start_time DESC")
+      @lessons_to_debrief = Lesson.where( start_time: 10.years.ago..Time.now, attended: false )
+                            .order("start_time DESC")
+      @completed_lessons = Lesson.where( start_time: 1.month.ago..Time.now )
+                          .where( attended: true ).order("start_time DESC")
     else
       @lessons = current_user.lessons.where.not( student_notes: nil )
+                .where( student_has_read_note: false )
     end
   end
 
   def edit
   end
 
+  def mark_note_as_read
+    @lesson.update(student_has_read_note: true)
+    flash[:success] = "Note marked as read."
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def lesson_params
-    params.require(:lesson).permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid)
+    params.require(:lesson).permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid, :student_has_read_note)
   end
 
   def find_lesson
