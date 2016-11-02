@@ -4,7 +4,11 @@ class UsersController < ApplicationController
 
     if @user.admin
       @lessons = Lesson.all
-      @lesson = Lesson.new
+      @notifications = Lesson.where.not( last_updated_by: @user.id )
+                              .where( has_seen_notification: false,
+                                      label: "lesson" )
+
+      puts @notifications.inspect
     elsif !@user.admin
       # @user = User.find(params[:id])
       @tutor_name = User.find_by( admin: true ).name

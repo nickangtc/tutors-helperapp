@@ -37,42 +37,34 @@
         %h2 My Calendar
 
       .row
+        -# Calendar
         .ten.wide.column#user-calendar
           = month_calendar events: @lessons do |date, lessons|
             = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
             - lessons.each do |lesson|
               = link_to lesson[:label], edit_lesson_path(lesson), remote: true, class: "ui"
-
+        -# Notifications panel
         .four.wide.column
           .ui.piled.segment
             %h3.ui.header
               Notifications
             .ui.comments
-              .comment
-                %a.avatar
-                  %img(src="http://semantic-ui.com/images/avatar/small/matt.jpg")
-                .content
-                  %a.author
-                    Matt
-                  .metadata
-                    %span.date
-                      2 hours ago
-                  .text
-                    Updated lesson details for DATE
-                  .actions
-                    %a.dismiss
-                      Ok, got it
-              .comment
-                %a.avatar
-                  %img(src="http://semantic-ui.com/images/avatar/small/joe.jpg")
-                .content
-                  %a.author
-                    Matt
-                  .metadata
-                    %span.date
-                      2 hours ago
-                  .text
-                    Updated lesson details for DATE
-                  .actions
-                    %a.dismiss
-                      Ok, got it
+              - @notifications.each do |notification|
+                .comment
+                  %a.avatar
+                    %img(src="http://semantic-ui.com/images/avatar/small/matt.jpg")
+                  .content
+                    %a.author
+                      = notification.user.name
+                    .metadata
+                      %span.date
+                        = time_ago_in_words(notification.updated_at)
+                    .text
+                      - if notification[:updated_count] == 0
+                        Booked lesson for
+                        = notification[:start_time].to_date.to_formatted_s(:short)
+                      - elsif notification[:updated_count] > 0
+                        Updated lesson details for
+                        = notification[:start_time].to_date.to_formatted_s(:short)
+                    .actions
+                      = link_to "Ok got it", dismiss_notice_path(notification), remote: true, method: :put

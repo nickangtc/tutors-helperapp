@@ -6,7 +6,9 @@
 
 class LessonsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_lesson, only: [:show, :update, :destroy, :edit, :mark_note_as_read]
+  # before_action :find_lesson, only: [:show, :update, :destroy, :edit, :mark_note_as_read]
+  before_action :find_lesson, except: [:new, :create, :index]
+
   after_action :add_notification, only: [:update, :create]
   after_action :increment_updated_count, only: [:update]
 
@@ -26,9 +28,12 @@ class LessonsController < ApplicationController
 
   def create
     @lesson = Lesson.new(lesson_params)
-    @lesson[:user_id] = current_user.id
     @lesson[:updated_count] = 0
+    @lesson[:student_has_read_note] = false
 
+    if !current_user.admin
+      @lesson[:user_id] = current_user.id
+    end
     # set default values
     if @lesson[:label] == "unavailable"
       @lesson[:attended] = nil
@@ -56,7 +61,7 @@ class LessonsController < ApplicationController
   end
 
   def update
-    # Sanitise default paid_method value if user selected paid=false
+    # Sanitise default paid_method value if teacher selected paid=false
     if lesson_params[:paid] == 'false'
       @sanitised_params = lesson_params
       @sanitised_params[:paid_method] = nil
@@ -97,7 +102,7 @@ class LessonsController < ApplicationController
                             .where.not( attended: nil )
                             .where( paid: false )
                             .order("start_time DESC")
-      @completed_lessons = Lesson.where(
+      @lessons_completed = Lesson.where(
                               start_time: 1.month.ago..Time.now,
                               attended: true,
                               paid: true)
@@ -117,6 +122,11 @@ class LessonsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def dismiss_notification
+    @lesson.update( has_seen_notification: true )
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def lesson_params
@@ -131,10 +141,6 @@ class LessonsController < ApplicationController
   def add_notification
     @lesson.update(last_updated_by: current_user.id,
                     has_seen_notification: false)
-  end
-
-  def dismiss_notification
-    @lesson[:has_seen_notification] = true
   end
 
   def increment_updated_count
