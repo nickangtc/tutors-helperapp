@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101135928) do
+ActiveRecord::Schema.define(version: 20161102005605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,9 +32,10 @@ ActiveRecord::Schema.define(version: 20161101135928) do
     t.boolean  "paid"
     t.text     "student_notes"
     t.text     "private_notes"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.boolean  "student_has_read_note"
+    t.string   "label",                 default: "lesson"
   end
 
   create_table "posts", force: :cascade do |t|
