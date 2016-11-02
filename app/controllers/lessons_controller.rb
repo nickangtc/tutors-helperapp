@@ -7,6 +7,8 @@
 class LessonsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_lesson, only: [:show, :update, :destroy, :edit, :mark_note_as_read]
+  after_action :add_notification, only: [:update, :create]
+  after_action :increment_updated_count, only: [:update]
 
   def new
     @lesson = Lesson.new
@@ -25,6 +27,7 @@ class LessonsController < ApplicationController
   def create
     @lesson = Lesson.new(lesson_params)
     @lesson[:user_id] = current_user.id
+    @lesson[:updated_count] = 0
 
     # set default values
     if @lesson[:label] == "unavailable"
@@ -40,7 +43,7 @@ class LessonsController < ApplicationController
 
     if @lesson.save
       if current_user.admin
-        flash[:success] = "Lesson created. Your student will be notified. Happy teaching!"
+        flash[:success] = "Lesson on #{@lesson[:start_time].to_date.to_formatted_s(:short)} saved. Happy teaching!"
       elsif !current_user.admin
         tutor_name = User.find_by( admin: true ).name
         flash[:success] = "Lesson booked with #{tutor_name}. #{random_quote()}"
@@ -63,7 +66,7 @@ class LessonsController < ApplicationController
 
 
     if @lesson.update(@sanitised_params)
-      flash[:success] = "Lesson details amended."
+      flash[:success] = "Lesson details for #{@sanitised_params[:start_time].to_date.to_formatted_s(:short)} amended."
       redirect_back(fallback_location: root_path)
     else
       flash[:error] = "Something went wrong. Please try again."
@@ -74,7 +77,7 @@ class LessonsController < ApplicationController
   def destroy
     @lesson.destroy
     if current_user.admin
-      flash[:success] = "Schedule updated."
+      flash[:success] = "Schedule for #{@lesson[:start_time].to_date.to_formatted_s(:short)} updated."
     elsif !current_user.admin
       flash[:success] = "Lesson cancelled. Don't give up on learning!"
     end
@@ -123,6 +126,20 @@ class LessonsController < ApplicationController
 
   def find_lesson
     @lesson = Lesson.find(params[:id])
+  end
+
+  def add_notification
+    @lesson.update(last_updated_by: current_user.id,
+                    has_seen_notification: false)
+  end
+
+  def dismiss_notification
+    @lesson[:has_seen_notification] = true
+  end
+
+  def increment_updated_count
+    updated_count = @lesson[:updated_count] + 1
+    @lesson.update( updated_count: updated_count )
   end
 
   def random_quote

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102084536) do
+ActiveRecord::Schema.define(version: 20161102121810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20161102084536) do
     t.integer  "paid_method"
     t.integer  "last_updated_by"
     t.boolean  "has_seen_notification"
+    t.integer  "updated_count"
   end
 
   create_table "payment_methods", force: :cascade do |t|

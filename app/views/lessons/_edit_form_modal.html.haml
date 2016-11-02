@@ -69,6 +69,9 @@
             = f.label "Payment method"
             -# select helper format: [text, value]
             = f.select(:paid_method, PaymentMethod.all.collect {|x| [x.name, x.id]})
+          -# Hidden date field for flash message
+          .field(style="display: none;")
+            = f.hidden_field :start_time
 
           = f.button :submit, "Mark Complete", :class => "ui teal button"
 

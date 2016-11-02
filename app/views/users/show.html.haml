@@ -1,11 +1,12 @@
 -# CALENDAR page with 2 views
--#  Teacher views all lessons and unavailable dates
--#  Student views only his own lessons and teacher's unavailable dates
+-#    Teacher views all lessons and unavailable dates
+-#    Student views only his own lessons and teacher's unavailable dates
 
 .ui.small.modal#new_lesson_modal(style="display: none;")
 
 - if @user != nil
 
+  -# Student calendar view
   - if !@user.admin
     .ui.main.container.stackable.grid.centered
       %p.success= flash[:success]
@@ -27,8 +28,8 @@
               - else
                 = "Lesson"
 
-
   - elsif @user.admin
+    -# Teacher calendar view
     .ui.main.container.stackable.grid.centered
       %p.success= flash[:success]
       %p.error= flash[:error]
@@ -41,3 +42,37 @@
             = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
             - lessons.each do |lesson|
               = link_to lesson[:label], edit_lesson_path(lesson), remote: true, class: "ui"
+
+        .four.wide.column
+          .ui.piled.segment
+            %h3.ui.header
+              Notifications
+            .ui.comments
+              .comment
+                %a.avatar
+                  %img(src="http://semantic-ui.com/images/avatar/small/matt.jpg")
+                .content
+                  %a.author
+                    Matt
+                  .metadata
+                    %span.date
+                      2 hours ago
+                  .text
+                    Updated lesson details for DATE
+                  .actions
+                    %a.dismiss
+                      Ok, got it
+              .comment
+                %a.avatar
+                  %img(src="http://semantic-ui.com/images/avatar/small/joe.jpg")
+                .content
+                  %a.author
+                    Matt
+                  .metadata
+                    %span.date
+                      2 hours ago
+                  .text
+                    Updated lesson details for DATE
+                  .actions
+                    %a.dismiss
+                      Ok, got it
