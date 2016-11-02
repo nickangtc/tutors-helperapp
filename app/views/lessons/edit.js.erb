@@ -1,2 +1,12 @@
 $("#new_lesson_modal").html("<%= escape_javascript(render 'edit_form_modal') %>");
 $(".ui.modal").modal('show')
+
+$('input[type=radio][name="lesson[paid]"]').change(function() {
+    // check radio button value by this.value
+    // hide div blocks by $('div#id').hide();
+    if (this.value === 'true') {
+      $('div#payment_method').slideDown(300);
+    } else {
+      $('div#payment_method').slideUp(300);
+    }
+});

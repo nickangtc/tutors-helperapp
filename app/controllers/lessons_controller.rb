@@ -24,14 +24,15 @@ class LessonsController < ApplicationController
 
   def create
     @lesson = Lesson.new(lesson_params)
+    @lesson[:user_id] = current_user.id
 
     # set default values
     if @lesson[:label] == "unavailable"
       @lesson[:attended] = nil
       @lesson[:paid] = nil
-      @lesson[:user_id] = current_user.id
     else
       @lesson[:paid] = false
+      @lesson[:label] = "lesson"
       # # uncomment if adding end_time attribute to lessons
       # finish_time = (lesson_params[:start_time].to_f() + 7200).to_formatted_s
       # @lesson[:end_time] = finish_time
@@ -52,7 +53,16 @@ class LessonsController < ApplicationController
   end
 
   def update
-    if @lesson.update(lesson_params)
+    # Sanitise default paid_method value if user selected paid=false
+    if lesson_params[:paid] == 'false'
+      @sanitised_params = lesson_params
+      @sanitised_params[:paid_method] = nil
+    else
+      @sanitised_params = lesson_params
+    end
+
+
+    if @lesson.update(@sanitised_params)
       flash[:success] = "Lesson details amended."
       redirect_back(fallback_location: root_path)
     else
@@ -108,7 +118,7 @@ class LessonsController < ApplicationController
 
   def lesson_params
     params.require(:lesson)
-      .permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid, :label)
+      .permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid, :label, :paid_method)
   end
 
   def find_lesson
