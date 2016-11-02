@@ -63,7 +63,11 @@ class LessonsController < ApplicationController
 
   def destroy
     @lesson.destroy
-    flash[:success] = "Lesson cancelled. Don't give up on learning!"
+    if current_user.admin
+      flash[:success] = "Schedule updated."
+    elsif !current_user.admin
+      flash[:success] = "Lesson cancelled. Don't give up on learning!"
+    end
     redirect_to '/users/' + current_user.id.to_s
   end
 

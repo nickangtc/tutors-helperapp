@@ -17,8 +17,15 @@
       -# ======================== TEACHER'S EDIT FORM ===================================
   - elsif current_user.admin
 
-    -# ============= If lesson has passed, show post-mortem form ============
-    - if @lesson.start_time < Time.now
+    - if @lesson[:label] == "unavailable"
+      %i.close.icon
+      .header
+        Unblock date?
+      .content
+        = button_to "Yes, free me up!", lesson_path(@lesson), method: :delete, data: { confirm: "Are you sure?" }, class: "ui button"
+
+    - elsif @lesson.start_time < Time.now
+      -# ============= If lesson has passed, show post-mortem form ============
       %i.close.icon
       .header
         Lesson post-mortem
