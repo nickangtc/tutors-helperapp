@@ -7,30 +7,32 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   %body
-
     -# NAVBAR
-    - if current_user
-      %strong
-        = link_to current_user.name, root_path
-      |
-      = link_to "Forum", posts_path
-      |
-      = link_to "Logout", destroy_user_session_path, :method => :delete
+    - if current_user != nil && current_user.admin
+      .ui.large.seven.item.menu
+        .item.space-out
+        = link_to current_user.name, root_path, class: "item"
+        = link_to "Calendar", '/users/' + current_user.id.to_s, class: "item"
+        = link_to "Follow Up", lessons_path, class: "item"
+        = link_to "Forum", posts_path, class: "item"
+        = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
+        .item.space-out
 
-      - if current_user.admin
-        |
-        = link_to "Calendar", '/users/' + current_user.id.to_s
-        |
-        = link_to "Follow Up", lessons_path
-
-      - elsif !current_user.admin
-        |
-        = link_to "Notes", lessons_path
+    - elsif current_user != nil && !current_user.admin
+      .ui.large.seven.item.menu
+        .item.space-out
+        = link_to current_user.name, root_path, class: "item"
+        = link_to "Notes", lessons_path, class: "item"
+        = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
+        .item.space-out
 
     - else
-      = link_to "Sign Up", new_user_registration_path
-      |
-      = link_to "Log In", new_user_session_path
+      -# Landing page
+      .ui.large.four.item.menu
+        .item.space-out
+        = link_to "Sign Up", new_user_registration_path, class: "item"
+        = link_to "Log In", new_user_session_path, class: "item"
+        .item.space-out
 
     -# FLASH MESSAGES
     %p.notice= notice
