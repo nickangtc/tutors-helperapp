@@ -4,36 +4,40 @@
 
 .ui.small.modal#new_lesson_modal(style="display: none;")
 
-- if (@user.admin == false)
-  .ui.main.container.stackable.grid.centered
-    %p.success= flash[:success]
-    %p.error= flash[:error]
-    .row
-      %h2
-        Schedule of tutor -
-        = @tutor_name
+- if @user != nil
 
-    .row
-      .ten.wide.column#user-calendar
-        = month_calendar events: @lessons do |date, lessons|
-          = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
-          - lessons.each do |lesson|
-            - if lesson.user_id == @user.id
-              = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "ui"
-            - else
-              = "Lesson"
+  - if !@user.admin
+    .ui.main.container.stackable.grid.centered
+      %p.success= flash[:success]
+      %p.error= flash[:error]
+      .row
+        %h2
+          Schedule of tutor -
+          = @tutor_name
+
+      .row
+        .ten.wide.column#user-calendar
+          = month_calendar events: @lessons do |date, lessons|
+            = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
+            - lessons.each do |lesson|
+              - if lesson[:label] == "unavailable"
+                Unavailable
+              - elsif lesson.user_id == @user.id
+                = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "ui"
+              - else
+                = "Lesson"
 
 
-- elsif @user.admin
-  .ui.main.container.stackable.grid.centered
-    %p.success= flash[:success]
-    %p.error= flash[:error]
-    .row
-      %h2 My Calendar
+  - elsif @user.admin
+    .ui.main.container.stackable.grid.centered
+      %p.success= flash[:success]
+      %p.error= flash[:error]
+      .row
+        %h2 My Calendar
 
-    .row
-      .ten.wide.column#user-calendar
-        = month_calendar events: @lessons do |date, lessons|
-          = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
-          - lessons.each do |lesson|
-            = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "ui"
+      .row
+        .ten.wide.column#user-calendar
+          = month_calendar events: @lessons do |date, lessons|
+            = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
+            - lessons.each do |lesson|
+              = link_to lesson[:label], edit_lesson_path(lesson), remote: true, class: "ui"

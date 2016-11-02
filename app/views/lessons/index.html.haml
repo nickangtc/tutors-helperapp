@@ -5,10 +5,10 @@
 %p.success= flash[:success]
 %p.error= flash[:error]
 
-.ui.large.modal#lesson_modal(style="display: none;")
+.ui.large.modal#new_lesson_modal(style="display: none;")
 
+-# STUDENT view
 - if !current_user.admin
-
   .ui.container.stackable.centered
     %h1 Notes
     %h3
@@ -37,10 +37,11 @@
 
 
 - elsif current_user.admin
-
+  -# TEACHER view
   .ui.container.stackable.centered
-    %h1 Lesson Follow Up
-    %h3 Only lessons that have passed will show up here.
+
+    %h1 After class follow up
+    %h3 Mark attendance, add notes and more
 
     %table.ui.table.yellow
       %thead
@@ -49,7 +50,6 @@
           %th Date
           %th Notes to Student
           %th Private notes
-          %th Paid fees?
           %th Manage
       %tbody
         - @lessons_to_debrief.each do |lesson|
@@ -59,9 +59,29 @@
             %td
               = lesson.start_time.to_formatted_s(:short)
             %td
-              = lesson.student_notes
+              = lesson.student_notes || "no feedback yet"
             %td
               = lesson.private_notes
+            %td.ui.selectable
+              = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
+
+    -# Accounting flags
+    %h3 Accounting flags
+
+    %table.ui.table.orange
+      %thead
+        %tr
+          %th Lesson with
+          %th Date
+          %th Paid fees?
+          %th Manage
+      %tbody
+        - @lessons_to_debrief.each do |lesson|
+          %tr.negative
+            %td
+              = User.find(lesson.user_id).name
+            %td
+              = lesson.start_time.to_formatted_s(:short)
             %td
               - if lesson.paid
                 Yes
@@ -70,8 +90,8 @@
             %td.ui.selectable
               = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
 
-    -# RECENTLY COMPLETED LESSONS
-    %h2 Recently Completed
+    -# Closed cases
+    %h3 Recently closed cases
 
     %table.ui.table.teal
       %thead
