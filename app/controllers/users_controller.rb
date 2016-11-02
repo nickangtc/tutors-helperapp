@@ -7,6 +7,7 @@ class UsersController < ApplicationController
       @notifications = Lesson.where.not( last_updated_by: @user.id )
                               .where( has_seen_notification: false,
                                       label: "lesson" )
+                              .order("updated_at DESC")
 
       puts @notifications.inspect
     elsif !@user.admin

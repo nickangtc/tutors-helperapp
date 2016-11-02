@@ -48,6 +48,8 @@
           .ui.piled.segment
             %h3.ui.header
               Notifications
+            - if @notifications.count == 0
+              %p All caught up!
             .ui.comments
               - @notifications.each do |notification|
                 .comment
