@@ -1,4 +1,5 @@
 class LessonsController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_lesson, only: [:show, :update, :destroy, :edit, :mark_note_as_read]
 
   def new
