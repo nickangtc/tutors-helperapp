@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102065127) do
+ActiveRecord::Schema.define(version: 20161102084536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 20161102065127) do
     t.boolean  "student_has_read_note"
     t.string   "label",                 default: "lesson"
     t.integer  "paid_method"
+    t.integer  "last_updated_by"
+    t.boolean  "has_seen_notification"
   end
 
   create_table "payment_methods", force: :cascade do |t|
