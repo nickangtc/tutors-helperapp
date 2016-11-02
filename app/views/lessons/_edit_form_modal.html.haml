@@ -1,7 +1,7 @@
 - if current_user != nil
 
+  -# ======================== STUDENT'S EDIT FORM ===================================
   -if !current_user.admin
-    -# STUDENT'S EDIT FORM
     %i.close.icon
     .header
       Change lesson details
@@ -14,48 +14,65 @@
 
       = link_to "Cancel Lesson", lesson_path(@lesson), method: :delete, data: { confirm: "Are you sure?" }
 
+      -# ======================== TEACHER'S EDIT FORM ===================================
   - elsif current_user.admin
-    -# TEACHER'S EDIT FORM
-    %i.close.icon
-    .header
-      Lesson Follow-Up
-    .content
-      %h2
-        Student:
-        = User.find(@lesson.user_id).name
-      %p
-        For Lesson on:
-        = @lesson.start_time.to_formatted_s(:short)
-      = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
-        .fields.inline
-          .field
-            .ui.radio.checkbox
-              = f.radio_button :attended, true
-              = f.label :attended, "Attended", value: "true"
-          .field
-            .ui.radio.checkbox
-              = f.radio_button :attended, false
-              = f.label :attended, "Missed", value: "false"
 
-        .field
-          = f.label :student_notes, label: "Notes for Student"
-          = f.text_area :student_notes, size: "24x3"
-        .field
-          = f.label :private_notes, label: "Private Notes"
-          = f.text_area :private_notes, size: "24x3"
-        .field
-          = f.label :paid, label: "Has student Paid for this Lesson?"
-        .fields.inline
-          .field
-            .ui.radio.checkbox
-              = f.radio_button :paid, true
-              = f.label :paid, "Paid", value: "true"
-          .field
-            .ui.radio.checkbox
-              = f.radio_button :paid, false
-              = f.label :paid, "Not yet", value: "false"
+    -# ============= If lesson has passed, show post-mortem form ============
+    - if @lesson.start_time < Time.now
+      %i.close.icon
+      .header
+        Lesson post-mortem
+      .content
+        %h2
+          Student:
+          = User.find(@lesson.user_id).name
+        %p
+          For Lesson on:
+          = @lesson.start_time.to_formatted_s(:short)
+        = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
+          .fields.inline
+            .field
+              .ui.radio.checkbox
+                = f.radio_button :attended, true
+                = f.label :attended, "Attended", value: "true"
+            .field
+              .ui.radio.checkbox
+                = f.radio_button :attended, false
+                = f.label :attended, "Missed", value: "false"
 
-        = f.button :submit, "Mark Complete", :class => "ui teal button"
+          .field
+            = f.label :student_notes, label: "Notes for Student"
+            = f.text_area :student_notes, size: "24x3"
+          .field
+            = f.label :private_notes, label: "Private Notes"
+            = f.text_area :private_notes, size: "24x3"
+          .field
+            = f.label :paid, label: "Has student Paid for this Lesson?"
+          .fields.inline
+            .field
+              .ui.radio.checkbox
+                = f.radio_button :paid, true
+                = f.label :paid, "Paid", value: "true"
+            .field
+              .ui.radio.checkbox
+                = f.radio_button :paid, false
+                = f.label :paid, "Not yet", value: "false"
 
-    .actions
-      = button_to "Cancel Lesson", lesson_path(@lesson), method: :delete, data: { confirm: "Are you sure?" }, class: "ui button"
+          = f.button :submit, "Mark Complete", :class => "ui teal button"
+
+      .actions
+        = button_to "Cancel Lesson", lesson_path(@lesson), method: :delete, data: { confirm: "Are you sure?" }, class: "ui button"
+
+    - elsif @lesson.start_time >= Time.now
+      -# ============= If lesson is in the future, show normal edit form ============
+      %i.close.icon
+      .header
+        Change lesson details
+      .content
+        = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
+          .field
+            = f.label :start_time, label: "Choose a date and time"
+            = f.datetime_field :start_time
+          = f.button :submit, "Save Changes", :class => "ui teal button"
+
+        = link_to "Cancel Lesson", lesson_path(@lesson), method: :delete, data: { confirm: "Are you sure?" }
