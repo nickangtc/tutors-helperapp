@@ -1,8 +1,13 @@
+-# Show 2 different views depending on whether Student or Teacher
+-#  Teacher views Summary of all past lessons that need follow up.
+-#  Student views Notes from teacher and mark as read.
+
 %p.success= flash[:success]
 %p.error= flash[:error]
 
+.ui.large.modal#lesson_modal(style="display: none;")
+
 - if !current_user.admin
-  .ui.large.modal#lesson_modal(style="display: none;")
 
   .ui.container.stackable.centered
     %h1 Notes
@@ -32,7 +37,6 @@
 
 
 - elsif current_user.admin
-  .ui.large.modal#lesson_modal(style="display: none;")
 
   .ui.container.stackable.centered
     %h1 Lesson Follow Up

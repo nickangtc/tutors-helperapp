@@ -40,9 +40,6 @@ class LessonsController < ApplicationController
   	end
   end
 
-  def show
-  end
-
   def update
     if @lesson.update(lesson_params)
       flash[:success] = "Lesson details amended."

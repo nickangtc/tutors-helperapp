@@ -1,7 +1,0 @@
-= simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
-  .field
-    = f.label :start_time, label: "Choose a date and time"
-    = f.datetime_field :start_time
-  = f.button :submit, "Update Lesson", :class => "ui teal button"
-
-= link_to "Cancel Lesson", lesson_path(@lesson), method: :delete, data: { confirm: "Are you sure?" }
