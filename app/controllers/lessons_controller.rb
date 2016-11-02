@@ -31,7 +31,6 @@ class LessonsController < ApplicationController
       @lesson[:paid] = nil
       @lesson[:user_id] = current_user.id
     else
-      @lesson[:attended] = false
       @lesson[:paid] = false
       # # uncomment if adding end_time attribute to lessons
       # finish_time = (lesson_params[:start_time].to_f() + 7200).to_formatted_s
@@ -73,10 +72,19 @@ class LessonsController < ApplicationController
   def index
     if current_user.admin
       # (10 years is a suitably long time to not matter chasing debts...)
-      @lessons_to_debrief = Lesson.where( start_time: 10.years.ago..Time.now, attended: false )
+      @lessons_to_debrief = Lesson.where(
+                              start_time: 10.years.ago..Time.now,
+                              attended: nil )
                             .order("start_time DESC")
-      @completed_lessons = Lesson.where( start_time: 1.month.ago..Time.now )
-                          .where( attended: true ).order("start_time DESC")
+      @lessons_not_paid = Lesson.where( start_time: 10.years.ago..Time.now )
+                            .where.not( attended: nil )
+                            .where( paid: false )
+                            .order("start_time DESC")
+      @completed_lessons = Lesson.where(
+                              start_time: 1.month.ago..Time.now,
+                              attended: true,
+                              paid: true)
+                            .order("start_time DESC")
     else
       @lessons = current_user.lessons.where.not( student_notes: nil )
                 .where( student_has_read_note: false )

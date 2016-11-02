@@ -13,7 +13,7 @@
         .item.space-out
         = link_to current_user.name, root_path, class: "item"
         = link_to "Calendar", '/users/' + current_user.id.to_s, class: "item"
-        = link_to "Follow Up", lessons_path, class: "item"
+        = link_to "Post-mortem", lessons_path, class: "item"
         = link_to "Forum", posts_path, class: "item"
         = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
         .item.space-out

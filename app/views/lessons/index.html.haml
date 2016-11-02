@@ -40,14 +40,15 @@
   -# TEACHER view
   .ui.container.stackable.centered
 
-    %h1 After class follow up
-    %h3 Mark attendance, add notes and more
+    %h1 Post-mortem
+    %h3 After-class follow up
 
     %table.ui.table.yellow
       %thead
         %tr
           %th Lesson with
           %th Date
+          %th Attendance
           %th Notes to Student
           %th Private notes
           %th Manage
@@ -58,6 +59,13 @@
               = User.find(lesson.user_id).name
             %td
               = lesson.start_time.to_formatted_s(:short)
+            %td
+              - if lesson.attended == nil
+                not marked yet
+              - elsif lesson.attended
+                Attended
+              - elsif !lesson.attended
+                Missed
             %td
               = lesson.student_notes || "no feedback yet"
             %td
@@ -76,7 +84,7 @@
           %th Paid fees?
           %th Manage
       %tbody
-        - @lessons_to_debrief.each do |lesson|
+        - @lessons_not_paid.each do |lesson|
           %tr.negative
             %td
               = User.find(lesson.user_id).name
