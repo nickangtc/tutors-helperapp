@@ -2,9 +2,12 @@
 
 - if (@user.admin == false)
   .ui.main.container.stackable.grid.centered
-    %h2
-      Schedule of tutor -
-      =@tutor_name
+    %p.success= flash[:success]
+    %p.error= flash[:error]
+    .row
+      %h2
+        Schedule of tutor -
+        =@tutor_name
 
     .row
       .ten.wide.column#user-calendar
@@ -16,14 +19,13 @@
             - else
               = "Lesson"
 
-      .six.wide.column#event-form
-        %h3 Add a new event
-        %p.success= flash[:success]
-        %p.error= flash[:error]
 
 - elsif @user.admin
   .ui.main.container.stackable.grid.centered
-    %h2 My Calendar
+    %p.success= flash[:success]
+    %p.error= flash[:error]
+    .row
+      %h2 My Calendar
 
     .row
       .ten.wide.column#user-calendar
@@ -31,8 +33,3 @@
           = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
           - lessons.each do |lesson|
             = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "ui"
-
-      .six.wide.column#event-form
-        %h3 Add a new event
-        %p.success= flash[:success]
-        %p.error= flash[:error]
