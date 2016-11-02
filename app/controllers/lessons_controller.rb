@@ -1,3 +1,9 @@
+# NOTE:
+#   - Lesson table currently stores a lot of info
+#   some might say it's bad db design. I agree.
+#   - TODO: Split up Lesson table to at least 2 other tables.
+#   - label attribute has 2 types: "lesson" and "unavailable"
+
 class LessonsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_lesson, only: [:show, :update, :destroy, :edit, :mark_note_as_read]
@@ -18,13 +24,19 @@ class LessonsController < ApplicationController
 
   def create
     @lesson = Lesson.new(lesson_params)
+
     # set default values
-    @lesson[:attended] = false
-    @lesson[:paid] = false
-    @lesson[:user_id] = current_user.id
-    # # uncomment if adding end_time attribute to lessons
-    # finish_time = (lesson_params[:start_time].to_f() + 7200).to_formatted_s
-    # @lesson[:end_time] = finish_time
+    if @lesson[:label] == "unavailable"
+      @lesson[:attended] = nil
+      @lesson[:paid] = nil
+      @lesson[:user_id] = current_user.id
+    else
+      @lesson[:attended] = false
+      @lesson[:paid] = false
+      # # uncomment if adding end_time attribute to lessons
+      # finish_time = (lesson_params[:start_time].to_f() + 7200).to_formatted_s
+      # @lesson[:end_time] = finish_time
+    end
 
     if @lesson.save
       if current_user.admin
@@ -83,7 +95,8 @@ class LessonsController < ApplicationController
   private
 
   def lesson_params
-    params.require(:lesson).permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid, :student_has_read_note)
+    params.require(:lesson)
+      .permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid, :label)
   end
 
   def find_lesson

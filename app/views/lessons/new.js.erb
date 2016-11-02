@@ -1,2 +1,12 @@
 $('#new_lesson_modal').html("<%= j (render 'form') %>");
 $('.ui.modal').modal('show');
+
+$('input[type=radio][name="lesson[label]"]').change(function() {
+    // check radio button value by this.value
+    // hide div blocks by $('div#id').hide();
+    if (this.value === 'unavailable') {
+      $('div#which_student').slideUp(300);
+    } else {
+      $('div#which_student').slideDown(300);
+    }
+});
