@@ -1,7 +1,13 @@
 .ui.container.stackable.grid.centered
 
   .twelve.wide.column
-    %h1 Forum
+    .ui.left.aligned.grid
+      .left.floated.three.wide.column
+        .ui.basic.segment
+          %h1 Forum
+      .right.floated.three.wide.column
+        .ui.basic.segment
+          = link_to "New Post", new_post_path, class: "ui teal button"
 
     .ui.divided.items
       - @posts.each do |post|
@@ -21,5 +27,3 @@
               = post.content.slice(0,300)
               - if post.content.length > 300
                 = "..."
-
-    = link_to "New Post", new_post_path
