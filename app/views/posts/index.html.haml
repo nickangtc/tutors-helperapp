@@ -20,7 +20,11 @@
             .meta
               %span
                 Posted by
-                = post.user.name
+                - if post.user.admin
+                  %a.ui.small.label
+                    = post.user.name
+                - else
+                  = post.user.name
                 on
                 = post.created_at.to_date.to_formatted_s(:short)
             .description

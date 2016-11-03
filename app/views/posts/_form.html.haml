@@ -1,4 +1,7 @@
-= simple_form_for @post do |f|
-  = f.input :title
-  = f.input :content
-  = f.submit
+= simple_form_for @post, html: { class: "ui form" } do |f|
+  .field
+    = f.input :title, placeholder: "Post title", required: "required", label: false, autocomplete: "off"
+  .field
+    = f.text_area :content, placeholder: "Write your post...", label: false, size: "24x4", required: "required"
+  .field
+    = f.submit class: "ui teal submit button"

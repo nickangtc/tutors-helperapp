@@ -28,8 +28,8 @@
                 ago
               .description
                 %p= lesson.student_notes
-            .ui.bottom.attached.button
-              = link_to "Mark as read", mark_as_read_path(lesson), remote: true, method: :put
+            .ui.bottom
+              = link_to "Mark as read", mark_as_read_path(lesson), remote: true, method: :put, class: "ui button attached"
 
 
 - elsif current_user.admin

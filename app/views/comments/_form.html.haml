@@ -1,5 +1,5 @@
 = simple_form_for [@post, @post.comments.build], html: { class: "ui reply form"} do |f|
   .field
-    = f.text_area :comment, placeholder: "Add a comment...", label: false, size: "24x3"
+    = f.text_area :comment, placeholder: "Add a comment...", label: false, size: "24x3", autocomplete: "off"
   .field
     = f.submit class: "ui teal submit button"

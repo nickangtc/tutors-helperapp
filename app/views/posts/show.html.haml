@@ -32,8 +32,19 @@
           %a.avatar
             = image_tag comment.user.profile_pic_url, style: "border-radius: 99em;"
           .content
-            %a.author
-              = comment.user.name
+            - if comment.user.admin
+              %a.ui.image.small.label.teal
+                = comment.user.name
+                .detail
+                  Teacher
+            - elsif comment.user.id == @post.user.id
+              %a.ui.image.small.label
+                = comment.user.name
+                .detail
+                  Asker
+            - else
+              %a.author
+                = comment.user.name
             .metadata
               %span.date
                 = time_ago_in_words(comment.created_at)
@@ -43,6 +54,7 @@
             .actions
               = link_to "Edit", edit_post_path(@post)
               = link_to "Delete", post_path(@post), method: :delete, data: { confirm: "Are you sure?" }
+
 
     = render "comments/form"
 

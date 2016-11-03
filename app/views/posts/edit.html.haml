@@ -1,5 +1,8 @@
-%h1 Edit Post
+.ui.container.stackable.grid.centered
 
-= render 'form'
+  .twelve.wide.column
+    = link_to "<< Back to Forum", posts_path
 
-= link_to "Cancel", post_path
+    %h1 Edit post
+
+    = render 'form'
