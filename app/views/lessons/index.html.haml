@@ -4,13 +4,12 @@
 
 .ui.large.modal#new_lesson_modal(style="display: none;")
 
-%p.success= flash[:success]
-%p.error= flash[:error]
-
 -# STUDENT view (cards showing teacher's notes for them)
 - if !current_user.admin
   .ui.grid.container.stackable.centered
     .twelve.wide.column
+
+
       %h1 Notes
       %h3
         From your teacher with
@@ -38,7 +37,6 @@
   .ui.container.stackable.grid.centered
 
     .twelve.wide.column
-
       %h1 Post-mortem
 
       %h3 After-class follow up

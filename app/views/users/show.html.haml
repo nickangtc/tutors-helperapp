@@ -9,8 +9,6 @@
   -# Student calendar view
   - if !@user.admin
     .ui.container.stackable.grid.centered
-      %p.success= flash[:success]
-      %p.error= flash[:error]
       .row
         %h2
           Schedule of tutor -
@@ -33,8 +31,6 @@
   - elsif @user.admin
     -# Teacher calendar view
     .ui.grid.container.stackable.centered
-      %p.success= flash[:success]
-      %p.error= flash[:error]
 
       -# Calendar
       .nine.wide.column#user-calendar

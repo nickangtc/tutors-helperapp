@@ -39,7 +39,8 @@
         .item.space-out
 
     -# FLASH MESSAGES
-    %p.notice= notice
-    %p.alert= alert
+    .ui.grid.container.stackable.centered
+      .eight.wide.column
+        = render "partials/flash"
 
     = yield
