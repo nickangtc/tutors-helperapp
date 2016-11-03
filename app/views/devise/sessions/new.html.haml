@@ -1,0 +1,16 @@
+
+.ui.container.stackable.grid.centered
+  .six.wide.column
+    %h1 Log in
+
+    = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "ui form" }) do |f|
+      .field
+        = f.input :email, required: "required", autofocus: true, autocomplete: "off"
+      .field
+        = f.input :password, required: "required"
+      .field
+        = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+      .field
+        = f.submit class: "ui teal submit button"
+
+    = render "devise/shared/links"
