@@ -16,6 +16,11 @@
 
 @import "semantic-ui";
 
+body {
+  background-color: #FBF7F0;
+  color: #283C46;
+}
+
 .calendar-full-height {
   height: 500px;
 }
@@ -28,6 +33,43 @@ p.marginless {
   margin: 0;
 }
 
+p.tinytext {
+  font-size: 0.9em;
+}
+
+// Modifying Semantic UI
+.ui.menu {
+  border-radius: none;
+}
+
+// Simple_calendar Gem
+.simple-calendar {
+  .day {}
+
+  .wday-0 {}
+  .wday-1 {}
+  .wday-2 {}
+  .wday-3 {}
+  .wday-4 {}
+  .wday-5 {}
+  .wday-6 {}
+
+  .today {
+    border: 1px solid #0DB9B1;
+  }
+  .past {}
+  .future {}
+  .start-date {}
+
+  .prev-month {}
+  .next-month { }
+  .current-month {}
+
+  .has-events {
+
+  }
+}
+
 // Table
 .cell-dim {
   background-color: lightgrey;
@@ -36,8 +78,4 @@ p.marginless {
   a {
     color: grey;
   }
-}
-
-p.tinytext {
-  font-size: 0.9em;
 }

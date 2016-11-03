@@ -48,7 +48,11 @@ class LessonsController < ApplicationController
 
     if @lesson.save
       if current_user.admin
-        flash[:success] = "Lesson on #{@lesson[:start_time].to_date.to_formatted_s(:short)} saved. Happy teaching!"
+        if @lesson[:label] == "unavailable"
+          flash[:success] = "#{@lesson[:start_time].to_date.to_formatted_s(:short)} has been blocked - Students can no longer book for that day."
+        else
+          flash[:success] = "Lesson on #{@lesson[:start_time].to_date.to_formatted_s(:short)} saved. Happy teaching!"
+        end
       elsif !current_user.admin
         tutor_name = User.find_by( admin: true ).name
         flash[:success] = "Lesson booked with #{tutor_name}. #{random_quote()}"

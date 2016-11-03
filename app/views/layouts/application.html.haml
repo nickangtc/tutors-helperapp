@@ -12,7 +12,7 @@
     - if current_user != nil
 
       - if current_user.admin
-        .ui.large.seven.item.menu
+        .ui.teal.inverted.large.seven.item.menu
           .item.space-out
           = link_to "Home", root_path, class: "item"
           = link_to "Calendar", '/users/' + current_user.id.to_s, class: "item"
@@ -22,7 +22,7 @@
           .item.space-out
 
       - elsif !current_user.admin
-        .ui.large.seven.item.menu
+        .ui.teal.inverted.large.seven.item.menu
           .item.space-out
           = link_to "Home", root_path, class: "item"
           = link_to "Notes", lessons_path, class: "item"
@@ -32,7 +32,7 @@
 
     - else
       -# Navbar when not authenticated
-      .ui.large.four.item.menu
+      .ui.teal.inverted.large.four.item.menu
         .item.space-out
         = link_to "Sign Up", new_user_registration_path, class: "item"
         = link_to "Log In", new_user_session_path, class: "item"

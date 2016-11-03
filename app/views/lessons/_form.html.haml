@@ -12,7 +12,7 @@
         .field
           = f.label :start_time, label: "Choose a date and time"
           = f.datetime_field :start_time
-        = f.button :submit, "Book Lesson", :class => "ui teal button"
+        = f.button :submit, "Book Lesson", :class => "ui green button"
 
   - elsif @user.admin
     %i.close.icon
@@ -38,4 +38,4 @@
           = f.label "Which Student?"
           = f.select(:user_id, User.all.collect {|x| [x.name, x.id]})
 
-        = f.button :submit, "Submit", :class => "ui teal button"
+        = f.button :submit, "Submit", :class => "ui green button"
