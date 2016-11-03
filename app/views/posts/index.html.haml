@@ -3,15 +3,20 @@
   .twelve.wide.column
     %h1 Forum
 
-    .ui.items
+    .ui.divided.items
       - @posts.each do |post|
         .item
           .content
             .header
               = link_to post.title, post
             .meta
-              %span.date
-                Posted
+              %span
+                Posted by
+                = post.user.name
+                about
                 = time_ago_in_words(post.created_at)
+                ago
             .description
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              = post.content.slice(0,300)
+              - if post.content.length > 300
+                = "..."

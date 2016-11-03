@@ -1,24 +1,50 @@
-.ui.main.container.grid
-  .row
-    %h1= @post.title
-  .row
-    %p= @post.content
+.ui.main.container.stackable.grid.centered
 
-  #comments
-    .row
-      %h3
-        Replies:
+  .ten.wide.column
+    = link_to "<< Back to Forum", posts_path
+    .ui.very.padded.segment
+      .ui.items
+        .item
+          %a.ui.tiny.image
+            %img(src="http://semantic-ui.com/images/avatar/large/stevie.jpg" style="border-radius: 99em;")
+          .content
+            .description
+              %p
+                %strong= @post.user.name
+                posted this on
+                = @post.created_at.to_date.to_formatted_s(:short)
+
+      .ui.divider
+
+      -# Original post content
+      %h1= @post.title
+      %p= @post.content
+      %p
+        Total of
         = @post.comments.count
-    .row
-      = render @post.comments
+        replies to this post.
 
-    .row
-      %h3 Reply to thread
-      = render "comments/form"
+  -# Comments thread
+  .nine.wide.column
+    .ui.comments
+      - @post.comments.each do |comment|
+        .comment
+          %a.avatar
+            %img(src="http://semantic-ui.com/images/avatar/small/joe.jpg")
+          .content
+            %a.author
+              = comment.user.name
+            .metadata
+              %span.date
+                = time_ago_in_words(comment.created_at)
+                ago
+            .text
+              = comment.comment
+            .actions
+              = link_to "Edit", edit_post_path(@post)
+              = link_to "Delete", post_path(@post), method: :delete, data: { confirm: "Are you sure?" }
 
-  .row
-    = link_to "Edit", edit_post_path(@post)
-    |
-    = link_to "Delete", post_path(@post), method: :delete, data: { confirm: "Are you sure?" }
+    = render "comments/form"
+
   .row
     = link_to "<< Back to Forum", posts_path
