@@ -2,10 +2,10 @@
 -#  Teacher views Summary of all past lessons that need follow up.
 -#  Student views Notes from teacher and mark as read.
 
+.ui.large.modal#new_lesson_modal(style="display: none;")
+
 %p.success= flash[:success]
 %p.error= flash[:error]
-
-.ui.large.modal#new_lesson_modal(style="display: none;")
 
 -# STUDENT view
 - if !current_user.admin
