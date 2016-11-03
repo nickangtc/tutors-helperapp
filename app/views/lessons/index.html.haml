@@ -83,7 +83,7 @@
       %h3 Accounting flags
       %p Follow up with students with outstanding fees
 
-      %table.ui.table.orange
+      %table.ui.table.red
         %thead
           %tr
             %th Lesson with
@@ -92,7 +92,7 @@
             %th.center.aligned Manage
         %tbody
           - @lessons_not_paid.each do |lesson|
-            %tr.negative
+            %tr
               %td
                 %h4.ui.image.header
                   = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
@@ -124,17 +124,17 @@
             %th.center.aligned Manage
         %tbody
           - @lessons_completed.each do |lesson|
-            %tr.positive
-              %td
+            %tr
+              %td.three.wide
                 %h4.ui.image.header
                   = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
                   .content
                     = User.find(lesson.user_id).name
               %td
                 = lesson.start_time.to_formatted_s(:short)
-              %td
+              %td.four.wide
                 = lesson.student_notes
-              %td
+              %td.four.wide
                 = lesson.private_notes
               %td
                 - if lesson.paid

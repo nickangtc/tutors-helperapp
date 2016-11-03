@@ -20,11 +20,11 @@
             %p
               = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
             - lessons.each do |lesson|
-              %p.marginless.tinytext
+              %p.marginless
                 - if lesson[:label] == "unavailable"
-                  = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "disable-my-cell dim-my-cell"
+                  = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "disable-my-cell dim-my-cell tinytext"
                 - elsif lesson.user_id == @user.id
-                  = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "ui"
+                  = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "tinytext"
                 - else
                   = "Lesson"
 
@@ -41,11 +41,11 @@
           %p
             = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
           - lessons.each do |lesson|
-            %p.marginless.tinytext
+            %p.marginless
               - if lesson[:label] == "lesson"
-                = link_to "Lesson", edit_lesson_path(lesson), remote: true
+                = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "tinytext"
               - elsif lesson[:label] == "unavailable"
-                = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "dim-my-cell"
+                = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "dim-my-cell tinytext"
 
       -# Notifications panel
       .four.wide.column

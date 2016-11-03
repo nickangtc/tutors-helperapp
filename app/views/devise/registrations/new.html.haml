@@ -2,17 +2,25 @@
   .six.wide.column
     %h1 Sign up
 
-    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "ui form" }) do |f|
-      = f.error_notification
-      .field
-        = f.input :name, required: "required", autofocus: true, autocomplete: "off"
-      .field
-        = f.input :email, required: "required", autofocus: true, autocomplete: "off"
-      .field
-        = f.input :password, required: "required", hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
-      .field
-        = f.input :password_confirmation, required: "required"
-      .field
-        = f.submit class: "ui green submit button"
+    .ui.padded.segment
+      .ui.items
+        .item
+          .content
+            = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "ui form" }) do |f|
+              = f.error_notification
+              .field
+                = f.label :name
+                = f.text_field :name, placeholder: "Tell us your name", required: "required", autofocus: true
+              .field
+                = f.label :email
+                = f.email_field :email, required: "required", placeholder: "your@email.com"
+              .field
+                = f.label :password
+                = f.password_field :password, required: "required", placeholder: "Enter password", hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
+              .field
+                = f.label :password_confirmation
+                = f.password_field :password_confirmation, placeholder: "Confirm password", required: "required"
+              .field
+                = f.submit class: "ui green submit button"
 
     = render "devise/shared/links"
