@@ -1,4 +1,7 @@
--# App FRONTPAGE
+-# App Homepage
+
+-# Modal
+.ui.large.modal#new_lesson_modal(style="display: none;")
 
 - if @user != nil && @user.admin
   .ui.main.container.stackable.grid.centered
@@ -13,6 +16,24 @@
       .six.wide.column#notifications
         .row
           %h3 Notifications
+
+- elsif @user != nil && !@user.admin
+  .ui.container.grid.centered
+    .twelve.wide.column
+      %h1 Classes overview
+
+      %h3 Upcoming lessons
+      - @lessons_upcoming.each do |lesson|
+        .ui.segment.clearing
+          %h4= lesson.start_time.to_formatted_s(:short)
+          .ui
+            = link_to "Edit", edit_lesson_path(lesson), remote: true, class: "button ui right floated", "data-toggle" => "modal", "data-target" => "lesson_modal"
+
+      %h3 Past lessons
+      - @lessons_past.each do |lesson|
+        .ui.segment
+          %h4= lesson.start_time.to_formatted_s(:short)
+
 - else
   -# Default to Landing Page
   .ui.main.container.stackable.grid.centered

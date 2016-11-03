@@ -11,7 +11,7 @@
     .ui.container.stackable.grid.centered
       .row
         %h2
-          Schedule of tutor -
+          Book a lesson with
           = @tutor_name
 
       .row
@@ -26,7 +26,7 @@
                 - elsif lesson.user_id == @user.id
                   = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "tinytext"
                 - else
-                  = "Lesson"
+                  %p.tinytext= "Lesson"
 
   - elsif @user.admin
     -# Teacher calendar view
