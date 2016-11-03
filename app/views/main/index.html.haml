@@ -4,18 +4,98 @@
 .ui.large.modal#new_lesson_modal(style="display: none;")
 
 - if @user != nil && @user.admin
-  .ui.main.container.stackable.grid.centered
-    %h2
-      Welcome back,
-      = @user.name
-    -# FRONTPAGE UI
-    .row
-      .ten.wide.column#user-calendar
-        .row
-          %h3 Lessons follow-up
-      .six.wide.column#notifications
-        .row
-          %h3 Notifications
+  .ui.container.grid.centered
+    .fourteen.wide.column
+      %h1 Business overview
+
+    .ten.wide.column
+      -# Lessons summary
+      %h3 Lessons summary
+      %p
+        Go to
+        = link_to "Post-mortem", lessons_path
+        to manage all lessons.
+
+      %h4 Upcoming lessons
+      %table.ui.table.teal
+        %thead
+          %tr
+            %th Lesson with
+            %th Date
+        %tbody
+          - @lessons_upcoming.each do |lesson|
+            %tr
+              %td
+                %h4.ui.image.header
+                  = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
+                  .content
+                    = User.find(lesson.user_id).name
+              %td
+                = lesson.start_time.to_formatted_s(:short)
+
+      %h4 Recently completed lessons
+      %table.ui.table.yellow
+        %thead
+          %tr
+            %th Lesson details
+            %th Attendance
+            %th Notes to Student
+        %tbody
+          - @lessons_past.each do |lesson|
+            %tr
+              %td
+                %h4.ui.image.header
+                  = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
+                  .content
+                    = User.find(lesson.user_id).name
+                    .sub.header
+                      on
+                      = lesson.start_time.to_formatted_s(:short)
+              %td
+                - if lesson.attended == nil
+                  not marked yet
+                - elsif lesson.attended
+                  Attended
+                - elsif !lesson.attended
+                  Missed
+              %td
+                = lesson.student_notes || "no feedback yet"
+
+    -# Notifications panel
+    .four.wide.column
+      %h3 Notifications
+      .ui.padded.segment
+        %h3.ui.header
+          Recent changes
+        - if @notifications.count == 0
+          %p No recent activity
+        .ui.comments
+          - @notifications.each do |notification|
+            .comment
+              %a.avatar
+                = image_tag notification.user.profile_pic_url, style: "border-radius: 99em;"
+              .content
+                %a.author
+                  = notification.user.name
+                .metadata
+                  %span.date
+                    = time_ago_in_words(notification.updated_at)
+                .text
+                  - if notification[:updated_count] == 0
+                    Booked lesson for
+                    = notification[:start_time].to_date.to_formatted_s(:short)
+                  - elsif notification[:updated_count] > 0
+                    Updated lesson details for
+                    = notification[:start_time].to_date.to_formatted_s(:short)
+                .actions
+                  = link_to "Ok got it", dismiss_notice_path(notification), remote: true, method: :put
+
+
+
+
+
+
+
 
 - elsif @user != nil && !@user.admin
   .ui.container.grid.centered
@@ -24,14 +104,14 @@
 
       %h3 Upcoming lessons
       - @lessons_upcoming.each do |lesson|
-        .ui.segment.clearing
+        .ui.segment.clearing.yellow
           %h4= lesson.start_time.to_formatted_s(:short)
           .ui
             = link_to "Edit", edit_lesson_path(lesson), remote: true, class: "button ui right floated", "data-toggle" => "modal", "data-target" => "lesson_modal"
 
       %h3 Past lessons
       - @lessons_past.each do |lesson|
-        .ui.segment
+        .ui.segment.teal
           %h4= lesson.start_time.to_formatted_s(:short)
 
 - else
