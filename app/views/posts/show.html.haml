@@ -6,7 +6,7 @@
       .ui.items
         .item
           %a.ui.tiny.image
-            %img(src="http://semantic-ui.com/images/avatar/large/stevie.jpg" style="border-radius: 99em;")
+            = image_tag @post.user.profile_pic_url, style: "border-radius: 99em;"
           .content
             .description
               %p
@@ -30,7 +30,7 @@
       - @post.comments.each do |comment|
         .comment
           %a.avatar
-            %img(src="http://semantic-ui.com/images/avatar/small/joe.jpg")
+            = image_tag comment.user.profile_pic_url, style: "border-radius: 99em;"
           .content
             %a.author
               = comment.user.name

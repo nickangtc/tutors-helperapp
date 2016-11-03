@@ -1,4 +1,4 @@
-.ui.main.container.stackable.grid.centered
+.ui.container.stackable.grid.centered
 
   .twelve.wide.column
     %h1 Forum
@@ -6,6 +6,8 @@
     .ui.divided.items
       - @posts.each do |post|
         .item
+          .ui.tiny.image
+            = image_tag post.user.profile_pic_url, style: "border-radius: 99em;"
           .content
             .header
               = link_to post.title, post
@@ -13,10 +15,11 @@
               %span
                 Posted by
                 = post.user.name
-                about
-                = time_ago_in_words(post.created_at)
-                ago
+                on
+                = post.created_at.to_date.to_formatted_s(:short)
             .description
               = post.content.slice(0,300)
               - if post.content.length > 300
                 = "..."
+
+    = link_to "New Post", new_post_path

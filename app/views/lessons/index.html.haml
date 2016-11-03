@@ -7,17 +7,13 @@
 %p.success= flash[:success]
 %p.error= flash[:error]
 
--# STUDENT view
+-# STUDENT view (cards showing teacher's notes for them)
 - if !current_user.admin
   .ui.container.stackable.centered
     %h1 Notes
     %h3
       From your teacher with
       %i.heart.icon .
-
-    %p
-      Notes count:
-      = @lessons.length
 
     .ui.three.column.grid
       - @lessons.each do |lesson|
@@ -37,94 +33,115 @@
 
 
 - elsif current_user.admin
-  -# TEACHER view
-  .ui.container.stackable.centered
+  -# TEACHER view (after-lesson administrative dashboard)
+  .ui.container.stackable.grid.centered
 
-    %h1 Post-mortem
-    %h3 After-class follow up
+    .twelve.wide.column
 
-    %table.ui.table.yellow
-      %thead
-        %tr
-          %th Lesson with
-          %th Date
-          %th Attendance
-          %th Notes to Student
-          %th Private notes
-          %th Manage
-      %tbody
-        - @lessons_to_debrief.each do |lesson|
+      %h1 Post-mortem
+
+      %h3 After-class follow up
+      %p Mark attendance, give feedback to students and leave notes-to-self
+
+      %table.ui.table.yellow
+        %thead
           %tr
-            %td
-              = User.find(lesson.user_id).name
-            %td
-              = lesson.start_time.to_formatted_s(:short)
-            %td
-              - if lesson.attended == nil
-                not marked yet
-              - elsif lesson.attended
-                Attended
-              - elsif !lesson.attended
-                Missed
-            %td
-              = lesson.student_notes || "no feedback yet"
-            %td
-              = lesson.private_notes
-            %td.ui.selectable
-              = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
+            %th Lesson details
+            %th Attendance
+            %th Notes to Student
+            %th Private notes
+            %th.center.aligned Manage
+        %tbody
+          - @lessons_to_debrief.each do |lesson|
+            %tr
+              %td
+                %h4.ui.image.header
+                  = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
+                  .content
+                    = User.find(lesson.user_id).name
+                    .sub.header
+                      on
+                      = lesson.start_time.to_formatted_s(:short)
+              %td
+                - if lesson.attended == nil
+                  not marked yet
+                - elsif lesson.attended
+                  Attended
+                - elsif !lesson.attended
+                  Missed
+              %td
+                = lesson.student_notes || "no feedback yet"
+              %td
+                = lesson.private_notes
+              %td.ui.selectable.two.wide.center.aligned
+                = link_to edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal" do
+                  %i.edit.icon
 
-    -# Accounting flags
-    %h3 Accounting flags
 
-    %table.ui.table.orange
-      %thead
-        %tr
-          %th Lesson with
-          %th Date
-          %th Paid fees?
-          %th Manage
-      %tbody
-        - @lessons_not_paid.each do |lesson|
-          %tr.negative
-            %td
-              = User.find(lesson.user_id).name
-            %td
-              = lesson.start_time.to_formatted_s(:short)
-            %td
-              - if lesson.paid
-                Yes
-              - elsif !lesson.paid
-                No
-            %td.ui.selectable
-              = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
 
-    -# Closed cases
-    %h3 Recently closed cases
 
-    %table.ui.table.teal
-      %thead
-        %tr
-          %th Lesson with
-          %th Date
-          %th Notes to Student
-          %th Private notes
-          %th Paid fees?
-          %th Manage
-      %tbody
-        - @lessons_completed.each do |lesson|
+      -# Accounting flags
+      %h3 Accounting flags
+      %p Follow up with students with outstanding fees
+
+      %table.ui.table.orange
+        %thead
           %tr
-            %td
-              = User.find(lesson.user_id).name
-            %td
-              = lesson.start_time.to_formatted_s(:short)
-            %td
-              = lesson.student_notes
-            %td
-              = lesson.private_notes
-            %td
-              - if lesson.paid
-                Yes
-              - elsif !lesson.paid
-                No
-            %td.ui.selectable
-              = link_to "Update", edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal"
+            %th Lesson with
+            %th Date
+            %th Paid fees?
+            %th.center.aligned Manage
+        %tbody
+          - @lessons_not_paid.each do |lesson|
+            %tr.negative
+              %td
+                %h4.ui.image.header
+                  = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
+                  .content
+                    = User.find(lesson.user_id).name
+              %td
+                = lesson.start_time.to_formatted_s(:short)
+              %td
+                - if lesson.paid
+                  Yes
+                - elsif !lesson.paid
+                  No
+              %td.ui.selectable.two.wide.center.aligned
+                = link_to edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal" do
+                  %i.edit.icon
+
+      -# Closed cases
+      %h3 Recently closed cases
+      %p Showing lessons up to 1 month ago
+
+      %table.ui.table.teal
+        %thead
+          %tr
+            %th Lesson with
+            %th Date
+            %th Notes to Student
+            %th Private notes
+            %th Paid fees?
+            %th.center.aligned Manage
+        %tbody
+          - @lessons_completed.each do |lesson|
+            %tr.positive
+              %td
+                %h4.ui.image.header
+                  = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
+                  .content
+                    = User.find(lesson.user_id).name
+              %td
+                = lesson.start_time.to_formatted_s(:short)
+              %td
+                = lesson.student_notes
+              %td
+                = lesson.private_notes
+              %td
+                - if lesson.paid
+                  Yes
+                - elsif !lesson.paid
+                  No
+              %td.ui.selectable.two.wide.center.aligned
+                = link_to edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal" do
+                  %i.edit.icon

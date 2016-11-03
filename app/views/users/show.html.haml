@@ -22,7 +22,7 @@
             %p
               = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
             - lessons.each do |lesson|
-              %p.marginless
+              %p.marginless.tinytext
                 - if lesson[:label] == "unavailable"
                   = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "disable-my-cell dim-my-cell"
                 - elsif lesson.user_id == @user.id
@@ -32,52 +32,52 @@
 
   - elsif @user.admin
     -# Teacher calendar view
-    .ui.main.container.stackable.grid.centered
+    .ui.grid.container.stackable.centered
       %p.success= flash[:success]
       %p.error= flash[:error]
-      .row
-        %h2 My Calendar
 
-      .row
-        -# Calendar
-        .ten.wide.column#user-calendar
-          = month_calendar events: @lessons do |date, lessons|
-            %p
-              = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
-            - lessons.each do |lesson|
-              %p.marginless
-                - if lesson[:label] == "lesson"
-                  = link_to "Lesson", edit_lesson_path(lesson), remote: true
-                - elsif lesson[:label] == "unavailable"
-                  = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "dim-my-cell"
+      -# Calendar
+      .nine.wide.column#user-calendar
+        %h1 My Calendar
+        %p Add lessons, block dates, approve student bookings all in one place.
 
-        -# Notifications panel
-        .four.wide.column
-          .ui.piled.segment
-            %h3.ui.header
-              Notifications
-            - if @notifications.count == 0
-              %p All caught up!
-            .ui.comments
-              - @notifications.each do |notification|
-                .comment
-                  %a.avatar
-                    %img(src="http://semantic-ui.com/images/avatar/small/matt.jpg")
-                  .content
-                    %a.author
-                      = notification.user.name
-                    .metadata
-                      %span.date
-                        = time_ago_in_words(notification.updated_at)
-                    .text
-                      - if notification[:updated_count] == 0
-                        Booked lesson for
-                        = notification[:start_time].to_date.to_formatted_s(:short)
-                      - elsif notification[:updated_count] > 0
-                        Updated lesson details for
-                        = notification[:start_time].to_date.to_formatted_s(:short)
-                    .actions
-                      = link_to "Ok got it", dismiss_notice_path(notification), remote: true, method: :put
+        = month_calendar events: @lessons do |date, lessons|
+          %p
+            = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
+          - lessons.each do |lesson|
+            %p.marginless.tinytext
+              - if lesson[:label] == "lesson"
+                = link_to "Lesson", edit_lesson_path(lesson), remote: true
+              - elsif lesson[:label] == "unavailable"
+                = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "dim-my-cell"
+
+      -# Notifications panel
+      .four.wide.column
+        .ui.padded.segment
+          %h3.ui.header
+            Recent changes
+          - if @notifications.count == 0
+            %p No recent activity
+          .ui.comments
+            - @notifications.each do |notification|
+              .comment
+                %a.avatar
+                  = image_tag notification.user.profile_pic_url, style: "border-radius: 99em;"
+                .content
+                  %a.author
+                    = notification.user.name
+                  .metadata
+                    %span.date
+                      = time_ago_in_words(notification.updated_at)
+                  .text
+                    - if notification[:updated_count] == 0
+                      Booked lesson for
+                      = notification[:start_time].to_date.to_formatted_s(:short)
+                    - elsif notification[:updated_count] > 0
+                      Updated lesson details for
+                      = notification[:start_time].to_date.to_formatted_s(:short)
+                  .actions
+                    = link_to "Ok got it", dismiss_notice_path(notification), remote: true, method: :put
 :javascript
   $(document).ready(function () {
     $('.dim-my-cell').parent().parent(".day").addClass( "cell-dim" );
