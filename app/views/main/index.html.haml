@@ -3,6 +3,7 @@
 -# Modal
 .ui.large.modal#new_lesson_modal(style="display: none;")
 
+-# ======================== Teacher logged in Homepage ========================
 - if @user != nil && @user.admin
   .ui.container.grid.centered
     .fourteen.wide.column
@@ -17,6 +18,7 @@
         to manage all lessons.
 
       %h4 Upcoming lessons
+      %p Showing 10 nearest lessons.
       %table.ui.table.teal
         %thead
           %tr
@@ -34,6 +36,7 @@
                 = lesson.start_time.to_formatted_s(:short)
 
       %h4 Recently completed lessons
+      %p Showing 10 most recently completed lessons.
       %table.ui.table.yellow
         %thead
           %tr
@@ -92,11 +95,7 @@
 
 
 
-
-
-
-
-
+  -# ======================== Student logged in Homepage ========================
 - elsif @user != nil && !@user.admin
   .ui.container.grid.centered
     .twelve.wide.column
@@ -115,7 +114,7 @@
           %h4= lesson.start_time.to_formatted_s(:short)
 
 - else
-  -# Default to Landing Page
+  -# ======================== Landing page ========================
   .ui.main.container.stackable.grid.centered
     .ten.wide.column#landing-page
       %h1

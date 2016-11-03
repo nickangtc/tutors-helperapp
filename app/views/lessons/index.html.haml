@@ -36,7 +36,7 @@
     .twelve.wide.column
       %h1 Post-mortem
       %h3 After-class follow up
-      %p Mark attendance, give feedback to students and leave notes-to-self
+      %p Mark attendance, give feedback to students and leave notes-to-self.
 
       %table.ui.table.yellow
         %thead
@@ -76,7 +76,7 @@
 
       -# Accounting flags
       %h3 Accounting flags
-      %p Follow up with students with outstanding fees
+      %p Follow up with students with outstanding fees.
 
       %table.ui.table.red
         %thead
@@ -108,7 +108,7 @@
 
       -# Closed cases
       %h3 Recently closed cases
-      %p Showing lessons up to 1 month ago
+      %p All done. Showing lessons up to 1 month ago.
 
       %table.ui.table.teal
         %thead
@@ -117,12 +117,11 @@
             %th Date
             %th Notes to Student
             %th Private notes
-            %th Paid fees?
             %th.center.aligned Manage
         %tbody
           - @lessons_completed.each do |lesson|
             %tr
-              %td.three.wide
+              %td.four.wide
                 %h4.ui.image.header
                   = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
                   .content
@@ -133,11 +132,6 @@
                 = lesson.student_notes
               %td.four.wide
                 = lesson.private_notes
-              %td
-                - if lesson.paid
-                  Yes
-                - elsif !lesson.paid
-                  No
               %td.ui.selectable.two.wide.center.aligned
                 = link_to edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal" do
                   %i.edit.icon
