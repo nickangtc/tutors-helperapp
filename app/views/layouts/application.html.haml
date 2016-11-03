@@ -20,7 +20,13 @@
           = link_to "Calendar", '/users/' + current_user.id.to_s, class: "item"
           = link_to "Post-mortem", lessons_path, class: "item"
           = link_to "Forum", posts_path, class: "item"
-          = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
+          .ui.dropdown.item
+            = current_user.name.upcase
+            %i.dropdown.icon
+            .menu
+              %a.settings.item
+                Settings
+              = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
           .item.space-out
 
       - elsif !current_user.admin
@@ -29,7 +35,13 @@
           = link_to "Home", root_path, class: "item"
           = link_to "Notes", lessons_path, class: "item"
           = link_to "Forum", posts_path, class: "item"
-          = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
+          .ui.dropdown.item
+            = current_user.name.upcase
+            %i.dropdown.icon
+            .menu
+              %a.settings.item
+                Settings
+              = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
           .item.space-out
 
     - else
@@ -46,3 +58,6 @@
         = render "partials/flash"
 
     = yield
+
+    :javascript
+      $('.ui.dropdown').dropdown();

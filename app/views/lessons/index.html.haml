@@ -29,7 +29,7 @@
                 .description
                   %p= lesson.student_notes
               .ui.bottom
-                = link_to "Mark as read", mark_as_read_path(lesson), remote: true, method: :put, class: "ui button attached"
+                = link_to "Mark as read", mark_as_read_path(lesson), remote: true, method: :put, class: "ui button attached green"
 
 
 - elsif current_user.admin
