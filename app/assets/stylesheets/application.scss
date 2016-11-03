@@ -23,3 +23,17 @@
 .space-out {
   width: 30vw;
 }
+
+p.marginless {
+  margin: 0;
+}
+
+// Table
+.cell-dim {
+  background-color: lightgrey;
+}
+.disabled {
+  a {
+    color: grey;
+  }
+}

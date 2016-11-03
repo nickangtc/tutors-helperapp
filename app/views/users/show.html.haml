@@ -19,14 +19,16 @@
       .row
         .ten.wide.column#user-calendar
           = month_calendar events: @lessons do |date, lessons|
-            = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
+            %p
+              = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
             - lessons.each do |lesson|
-              - if lesson[:label] == "unavailable"
-                Unavailable
-              - elsif lesson.user_id == @user.id
-                = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "ui"
-              - else
-                = "Lesson"
+              %p.marginless
+                - if lesson[:label] == "unavailable"
+                  = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "disable-my-cell dim-my-cell"
+                - elsif lesson.user_id == @user.id
+                  = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "ui"
+                - else
+                  = "Lesson"
 
   - elsif @user.admin
     -# Teacher calendar view
@@ -40,9 +42,15 @@
         -# Calendar
         .ten.wide.column#user-calendar
           = month_calendar events: @lessons do |date, lessons|
-            = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
+            %p
+              = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
             - lessons.each do |lesson|
-              = link_to lesson[:label], edit_lesson_path(lesson), remote: true, class: "ui"
+              %p.marginless
+                - if lesson[:label] == "lesson"
+                  = link_to "Lesson", edit_lesson_path(lesson), remote: true
+                - elsif lesson[:label] == "unavailable"
+                  = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "dim-my-cell"
+
         -# Notifications panel
         .four.wide.column
           .ui.piled.segment
@@ -70,3 +78,9 @@
                         = notification[:start_time].to_date.to_formatted_s(:short)
                     .actions
                       = link_to "Ok got it", dismiss_notice_path(notification), remote: true, method: :put
+:javascript
+  $(document).ready(function () {
+    $('.dim-my-cell').parent().parent(".day").addClass( "cell-dim" );
+    $('.disable-my-cell').parent().parent(".day").addClass( "disabled" );
+    console.log($('.dim-my-cell').parent().parent(".day"))
+  })

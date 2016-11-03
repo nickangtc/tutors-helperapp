@@ -7,27 +7,30 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   %body
-    -# NAVBAR
-    - if current_user != nil && current_user.admin
-      .ui.large.seven.item.menu
-        .item.space-out
-        = link_to current_user.name, root_path, class: "item"
-        = link_to "Calendar", '/users/' + current_user.id.to_s, class: "item"
-        = link_to "Post-mortem", lessons_path, class: "item"
-        = link_to "Forum", posts_path, class: "item"
-        = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
-        .item.space-out
 
-    - elsif current_user != nil && !current_user.admin
-      .ui.large.seven.item.menu
-        .item.space-out
-        = link_to current_user.name, root_path, class: "item"
-        = link_to "Notes", lessons_path, class: "item"
-        = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
-        .item.space-out
+    -# ====== NAVBAR ======
+    - if current_user != nil
+
+      - if current_user.admin
+        .ui.large.seven.item.menu
+          .item.space-out
+          = link_to current_user.name, root_path, class: "item"
+          = link_to "Calendar", '/users/' + current_user.id.to_s, class: "item"
+          = link_to "Post-mortem", lessons_path, class: "item"
+          = link_to "Forum", posts_path, class: "item"
+          = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
+          .item.space-out
+
+      - elsif !current_user.admin
+        .ui.large.seven.item.menu
+          .item.space-out
+          = link_to current_user.name, root_path, class: "item"
+          = link_to "Notes", lessons_path, class: "item"
+          = link_to "Logout", destroy_user_session_path, :method => :delete, class: "item"
+          .item.space-out
 
     - else
-      -# Landing page
+      -# Navbar when not authenticated
       .ui.large.four.item.menu
         .item.space-out
         = link_to "Sign Up", new_user_registration_path, class: "item"

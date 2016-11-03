@@ -4,12 +4,13 @@ class UsersController < ApplicationController
 
     if @user.admin
       @lessons = Lesson.all
+
+      # Only teacher gets notified of changes to lesson details
       @notifications = Lesson.where.not( last_updated_by: @user.id )
                               .where( has_seen_notification: false,
                                       label: "lesson" )
                               .order("updated_at DESC")
-
-      puts @notifications.inspect
+                              
     elsif !@user.admin
       # @user = User.find(params[:id])
       @tutor_name = User.find_by( admin: true ).name
