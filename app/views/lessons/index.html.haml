@@ -9,27 +9,28 @@
 
 -# STUDENT view (cards showing teacher's notes for them)
 - if !current_user.admin
-  .ui.container.stackable.centered
-    %h1 Notes
-    %h3
-      From your teacher with
-      %i.heart.icon .
+  .ui.grid.container.stackable.centered
+    .twelve.wide.column
+      %h1 Notes
+      %h3
+        From your teacher with
+        %i.heart.icon .
 
-    .ui.three.column.grid
-      - @lessons.each do |lesson|
-        .column
-          .ui.fluid.card
-            .content
-              .header
-                Class on
-                = lesson.start_time.to_formatted_s(:short)
-              .meta
-                = time_ago_in_words(lesson.updated_at)
-                ago
-              .description
-                %p= lesson.student_notes
-            .ui.bottom
-              = link_to "Mark as read", mark_as_read_path(lesson), remote: true, method: :put, class: "ui button attached"
+      .ui.three.column.grid
+        - @lessons.each do |lesson|
+          .column
+            .ui.fluid.card
+              .content
+                .header
+                  Class on
+                  = lesson.start_time.to_formatted_s(:short)
+                .meta
+                  = time_ago_in_words(lesson.updated_at)
+                  ago
+                .description
+                  %p= lesson.student_notes
+              .ui.bottom
+                = link_to "Mark as read", mark_as_read_path(lesson), remote: true, method: :put, class: "ui button attached"
 
 
 - elsif current_user.admin
