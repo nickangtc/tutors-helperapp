@@ -34,8 +34,8 @@
   -# ================ TEACHER view (after-lesson administrative dashboard) ================
   .ui.container.grid.centered
     .twelve.wide.column
-      %h1 Post-mortem
-      %h3 After-class follow up
+      %h1 After class
+      %h3 Follow up with students
       %p Mark attendance, give feedback to students and leave notes-to-self.
 
       %table.ui.table.yellow
@@ -72,8 +72,6 @@
                 = link_to edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal" do
                   %i.edit.icon
 
-
-
       -# Accounting flags
       %h3 Accounting flags
       %p Follow up with students with outstanding fees.
@@ -103,8 +101,6 @@
               %td.ui.selectable.two.wide.center.aligned
                 = link_to edit_lesson_path(lesson), remote: true, "data-toggle" => "modal", "data-target" => "lesson_modal" do
                   %i.edit.icon
-
-
 
       -# Closed cases
       %h3 Recently closed cases

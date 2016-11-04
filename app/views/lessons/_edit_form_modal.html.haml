@@ -26,10 +26,10 @@
         = button_to "Yes, free me up!", lesson_path(@lesson), method: :delete, data: { confirm: "Are you sure?" }, class: "ui button"
 
     - elsif @lesson.start_time < Time.now
-      -# ============= If lesson has passed, show post-mortem form ============
+      -# ============= If lesson has passed, show after class form ============
       %i.close.icon
       .header
-        Lesson post-mortem
+        Lesson follow up
       .content
         %h2
           Student:

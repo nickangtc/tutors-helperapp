@@ -1,5 +1,5 @@
-$("#new_lesson_modal").html("<%= escape_javascript(render 'edit_form_modal') %>");
-$(".ui.modal").modal('show')
+$('#new_lesson_modal').html('<%= escape_javascript(render 'edit_form_modal') %>');
+$('.ui.modal').modal('show')
 
 $('input[type=radio][name="lesson[paid]"]').change(function() {
     // check radio button value by this.value

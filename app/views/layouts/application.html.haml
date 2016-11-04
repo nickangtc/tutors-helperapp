@@ -17,8 +17,8 @@
         .ui.teal.inverted.large.seven.item.menu
           .item.space-out
           = link_to "Home", root_path, class: "item"
-          = link_to "Calendar", '/users/' + current_user.id.to_s, class: "item"
-          = link_to "Post-mortem", lessons_path, class: "item"
+          = link_to "Calendar", user_path(current_user), class: "item"
+          = link_to "After class", lessons_path, class: "item"
           = link_to "Forum", posts_path, class: "item"
           .ui.dropdown.item
             = current_user.name.upcase
@@ -33,7 +33,7 @@
         .ui.teal.inverted.large.seven.item.menu
           .item.space-out
           = link_to "Home", root_path, class: "item"
-          = link_to "Book lesson", '/users/' + current_user.id.to_s, class: "item"
+          = link_to "Book lesson", user_path(current_user), class: "item"
           = link_to "Notes", lessons_path, class: "item"
           = link_to "Forum", posts_path, class: "item"
           .ui.dropdown.item

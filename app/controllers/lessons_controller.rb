@@ -57,7 +57,7 @@ class LessonsController < ApplicationController
         tutor_name = User.find_by( admin: true ).name
         flash[:success] = "Lesson booked with #{tutor_name}. #{random_quote()}"
       end
-      redirect_to '/users/' + current_user.id.to_s
+      redirect_back(fallback_location: user_path(current_user))
   	else
       flash[:error] = "Something went wrong. Please try again."
   		render :new
@@ -90,7 +90,7 @@ class LessonsController < ApplicationController
     elsif !current_user.admin
       flash[:success] = "Lesson cancelled. Don't give up on learning!"
     end
-    redirect_to '/users/' + current_user.id.to_s
+    redirect_back(fallback_location: user_path(current_user))
   end
 
   # For tutor's access only

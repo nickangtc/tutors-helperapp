@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   root 'main#index'
 
   # Frontpage if logged in
-  get '/users/:id', to: 'users#show'
+  get '/users/:id', to: 'users#show', as: :user
 
   #  Action to mark teacher's note to student as read
   put '/lessons/notes/:id', to: 'lessons#mark_note_as_read', as: :mark_as_read
