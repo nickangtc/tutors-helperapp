@@ -32,6 +32,8 @@ I chose to build this because it required knowledge of several tech/topics that 
 * Integrating Rails with a front-end library like Semantic UI
 * Tying the pieces together in Rails to build a full stack web app
 
-Technically speaking, this isn't pushing the limits of sophistication. The point, for me at least, wasn't to make use of _all_ the things I've learned. It was to challenge myself to build something interesting, potentially useful, and more importantly, to push myself to build something that _someone would actually use_.
+Building this app was the most fun I had in the entire course at General Assembly because I knew what I was doing most of the time. It was the first time I've experienced self-efficacy as a programmer. Whenever I was stuck, I knew where to look for answers. (Mostly the official docs and Stack Overflow.)
 
-The goal was to build a solid foundation for the project, and then build some more on top of that afterwards. I didn't want to have to overhaul the project when I came back to it because of spaghetti code and bad database architecture. I'm glad to report that I don't feel stressed out looking at the code at the moment. Fingers crossed!
+Technically speaking, this isn't pushing the limits of sophistication. The point, for me at least, wasn't to make use of _all_ the things I've learned. It was to challenge myself to build something interesting, potentially useful, and more importantly, to push myself to build something that _someone would actually use_. That meant it had to have good enough functionality and a decent UX.
+
+The goal was to build a solid foundation for the project, and then build some more on top of that afterwards. I didn't want to have to overhaul the project when I came back to it because of spaghetti code and bad database architecture. I'm happy to report that at this point, I don't feel stressed out looking at the code. Fingers crossed!
