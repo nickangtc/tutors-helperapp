@@ -30,6 +30,7 @@ class LessonsController < ApplicationController
     @lesson = Lesson.new(lesson_params)
     @lesson[:updated_count] = 0
     @lesson[:student_has_read_note] = false
+    @lesson[:lesson_duration_s] = 2 * 60 * 60
 
     if !current_user.admin
       @lesson[:user_id] = current_user.id

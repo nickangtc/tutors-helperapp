@@ -18,7 +18,7 @@
                 = f.check_box :remember_me, as: :boolean if devise_mapping.rememberable?
                 = f.label :remember_me
               .field
-                = f.submit class: "ui green submit button", label: "Log in"
+                = f.submit "Log in", class: "ui green submit button"
 
     .row
       = render "devise/shared/links"

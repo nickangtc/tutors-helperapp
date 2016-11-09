@@ -8,6 +8,8 @@
       %p
         %i
           “Live as if you were to die tomorrow. Learn as if you were to live forever.” (Mahatma Gandhi)
+      %p
+        Note: each booking is for 2 hours of lesson time.
       = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
         .field
           = f.label :start_time, label: "Choose a date and time"
@@ -19,6 +21,10 @@
     .header
       Add a new event
     .content
+      %p
+        Note: duration per lesson is set to default 2 hours.
+        %a(href="#")
+          (change)
       = simple_form_for @lesson, remote: true, html: { :class => 'ui form'} do |f|
         .fields.inline
           = f.label :label, label: "Event type:"
