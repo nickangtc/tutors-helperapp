@@ -9,6 +9,7 @@
         .ui.basic.segment
           = link_to "New Post", new_post_path, class: "ui green button"
 
+
     .ui.divided.items
       - @posts.each do |post|
         .item
@@ -30,4 +31,4 @@
             .description
               = post.content.slice(0,300)
               - if post.content.length > 300
-                = "..."
+                = "[...]"
