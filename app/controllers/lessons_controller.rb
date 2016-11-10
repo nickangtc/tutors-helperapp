@@ -32,7 +32,6 @@ class LessonsController < ApplicationController
 
     # Check if datetime selected by user does not clash with existing records
     if is_unique(@lesson, @lessons_that_day)
-      puts "THIS SHOULD NOT APPEAR"
       # Set defaults
       @lesson[:updated_count] = 0
       @lesson[:student_has_read_note] = false
@@ -71,9 +70,8 @@ class LessonsController < ApplicationController
     	end
 
     elsif !is_unique(@lesson, @lessons_that_day)
-      puts "DATETIME CHOSEN CLASHES WITH AN EXISTING EVENT! ABORTING"
       # Datetime chosen by user conflicts with an existing record
-      flash[:error] = "Date/time clashes with an existing event."
+      flash[:error] = "Lesson time clashes with an existing event. Try again!"
       redirect_back(fallback_location: user_path(current_user))
     end
   end
@@ -171,10 +169,8 @@ class LessonsController < ApplicationController
       lesson_start_time = lesson[:start_time].to_time
       lesson_end_time = lesson_start_time + lesson[:lesson_duration_m].minutes
       if ( lesson_start_time..lesson_end_time ).cover?( new_lesson[:start_time].to_time )
-        puts "This lesson is NOT unique. Clashes. Aborting..."
         return false
       else
-        puts "Lesson is unique. Does not clash. Proceeding..."
         return true
       end
     end
