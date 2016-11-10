@@ -19,10 +19,14 @@
       -# Original post content
       %h1= @post.title
       %p= simple_format(@post.content)
-      %p
-        Total of
-        = @post.comments.count
-        replies to this post.
+      - if @post.comments.count == 0
+        %p
+          (No replies to this post yet. Be the first to reply!)
+      - else
+        %p
+          (Total of
+          = @post.comments.count
+          replies to this post.)
 
   -# Comments thread
   .nine.wide.column
