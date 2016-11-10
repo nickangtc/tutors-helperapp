@@ -9,7 +9,7 @@ class LessonsController < ApplicationController
   # before_action :find_lesson, only: [:show, :update, :destroy, :edit, :mark_note_as_read]
   before_action :find_lesson, except: [:new, :create, :index]
 
-  after_action :add_notification, only: [:update, :create]
+  after_action :add_notification, only: [:update]
   after_action :increment_updated_count, only: [:update]
 
   def new
@@ -28,41 +28,54 @@ class LessonsController < ApplicationController
 
   def create
     @lesson = Lesson.new(lesson_params)
-    @lesson[:updated_count] = 0
-    @lesson[:student_has_read_note] = false
+    @lessons_that_day = Lesson.where( start_time: lesson_params[:start_time].to_date )
 
-    if !current_user.admin
-      @lesson[:user_id] = current_user.id
+    # Check if datetime selected by user does not clash with existing records
+    if is_unique(@lesson, @lessons_that_day)
+      puts "THIS SHOULD NOT APPEAR"
+      # Set defaults
+      @lesson[:updated_count] = 0
+      @lesson[:student_has_read_note] = false
 
-      # Default lesson duration set by teacher
-      @lesson[:lesson_duration_m] = 2 * 60
-    end
-
-    # Define event type and Set default values
-    if @lesson[:label] == "unavailable"
-      @lesson[:attended] = nil
-      @lesson[:paid] = nil
-    else
-      @lesson[:paid] = false
-      @lesson[:label] = "lesson"
-    end
-
-    if @lesson.save
-      if current_user.admin
-        if @lesson[:label] == "unavailable"
-          flash[:success] = "#{@lesson[:start_time].to_date.to_formatted_s(:short)} has been blocked - Students can no longer book for that day."
-        else
-          flash[:success] = "Lesson on #{@lesson[:start_time].to_date.to_formatted_s(:short)} saved. Happy teaching!"
-        end
-      elsif !current_user.admin
-        tutor_name = User.find_by( admin: true ).name
-        flash[:success] = "Lesson booked with #{tutor_name}. #{random_quote()}"
+      if !current_user.admin
+        @lesson[:user_id] = current_user.id
+        # 2 hour default hardcoded
+        @lesson[:lesson_duration_m] = 2 * 60
       end
+
+      # Define event type and Set default values
+      if @lesson[:label] == "unavailable"
+        @lesson[:attended] = nil
+        @lesson[:paid] = nil
+      else
+        @lesson[:paid] = false
+        @lesson[:label] = "lesson"
+      end
+
+      if @lesson.save
+        if current_user.admin
+          if @lesson[:label] == "unavailable"
+            flash[:success] = "#{@lesson[:start_time].to_date.to_formatted_s(:short)} has been blocked - Students can no longer book for that day."
+          else
+            flash[:success] = "Lesson on #{@lesson[:start_time].to_date.to_formatted_s(:short)} saved. Happy teaching!"
+          end
+        elsif !current_user.admin
+          tutor_name = User.find_by( admin: true ).name
+          flash[:success] = "Lesson booked with #{tutor_name}. #{random_quote()}"
+        end
+        add_notification
+        redirect_back(fallback_location: user_path(current_user))
+    	else
+        flash[:error] = "Something went wrong. Please try again."
+    		render :new
+    	end
+
+    elsif !is_unique(@lesson, @lessons_that_day)
+      puts "DATETIME CHOSEN CLASHES WITH AN EXISTING EVENT! ABORTING"
+      # Datetime chosen by user conflicts with an existing record
+      flash[:error] = "Date/time clashes with an existing event."
       redirect_back(fallback_location: user_path(current_user))
-  	else
-      flash[:error] = "Something went wrong. Please try again."
-  		render :new
-  	end
+    end
   end
 
   def update
@@ -153,12 +166,18 @@ class LessonsController < ApplicationController
     @lesson.update( updated_count: updated_count )
   end
 
-  def sec_to_min (sec)
-    return sec / 60
-  end
-
-  def min_to_sec (min)
-    return min * 60
+  def is_unique (new_lesson, existing_lessons)
+    existing_lessons.each do |lesson|
+      lesson_start_time = lesson[:start_time].to_time
+      lesson_end_time = lesson_start_time + lesson[:lesson_duration_m].minutes
+      if ( lesson_start_time..lesson_end_time ).cover?( new_lesson[:start_time].to_time )
+        puts "This lesson is NOT unique. Clashes. Aborting..."
+        return false
+      else
+        puts "Lesson is unique. Does not clash. Proceeding..."
+        return true
+      end
+    end
   end
 
   def random_quote

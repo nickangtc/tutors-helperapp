@@ -41,7 +41,7 @@
           = f.datetime_field :start_time
         .field
           = f.label :lesson_duration_m, label: "Enter lesson duration in minutes"
-          = f.number_field :lesson_duration_m, placeholder: "120"
+          = f.number_field :lesson_duration_m, value: "120"
         .field#which_student
           = f.label "Which Student?"
           = f.select(:user_id, User.all.collect {|x| [x.name, x.id]})
