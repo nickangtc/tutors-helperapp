@@ -22,7 +22,7 @@
             - lessons.each do |lesson|
               %p.marginless
                 - start_time = lesson[:start_time].strftime("%l:%M%p")
-                - end_time = (lesson[:start_time].to_time + lesson[:lesson_duration_m]).strftime("%l:%M%p")
+                - end_time = (lesson[:start_time].to_time + lesson[:lesson_duration_m].minutes).strftime("%l:%M%p")
                 - if lesson[:label] == "unavailable"
                   = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "disable-my-cell dim-my-cell tinytext"
                 - elsif lesson.user_id == @user.id
