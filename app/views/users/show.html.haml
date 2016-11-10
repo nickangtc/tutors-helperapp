@@ -17,14 +17,16 @@
       .row
         .ten.wide.column#user-calendar
           = month_calendar events: @lessons do |date, lessons|
-            %p
+            %p.right.aligned
               = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
             - lessons.each do |lesson|
               %p.marginless
                 - if lesson[:label] == "unavailable"
                   = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "disable-my-cell dim-my-cell tinytext"
                 - elsif lesson.user_id == @user.id
-                  = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "tinytext"
+                  - start_time = lesson[:start_time].strftime("%l:%M%p")
+                  - end_time = (lesson[:start_time].to_time + lesson[:lesson_duration_m]).strftime("%l:%M%p")
+                  = link_to "#{start_time} - #{end_time}", edit_lesson_path(lesson), remote: true, class: "tinytext"
                 - else
                   %p.tinytext= "Lesson"
 
@@ -33,17 +35,19 @@
     .ui.grid.container.stackable.centered
 
       -# Calendar
-      .nine.wide.column#user-calendar
+      .twelve.wide.column#user-calendar
         %h1 My Calendar
         %p Add lessons, block dates, approve student bookings all in one place.
 
         = month_calendar events: @lessons do |date, lessons|
-          %p
+          %p.right.aligned
             = link_to date.to_formatted_s(:short), new_lesson_path(:date => date), remote: true
           - lessons.each do |lesson|
             %p.marginless
               - if lesson[:label] == "lesson"
-                = link_to "Lesson", edit_lesson_path(lesson), remote: true, class: "tinytext"
+                - start_time = lesson[:start_time].strftime("%l:%M%p")
+                - end_time = (lesson[:start_time].to_time + lesson[:lesson_duration_m].minutes).strftime("%l:%M%p")
+                = link_to "#{start_time} - #{end_time}", edit_lesson_path(lesson), remote: true, class: "tinytext"
               - elsif lesson[:label] == "unavailable"
                 = link_to "Unavailable", edit_lesson_path(lesson), remote: true, class: "dim-my-cell tinytext"
 

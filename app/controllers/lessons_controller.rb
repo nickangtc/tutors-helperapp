@@ -30,21 +30,21 @@ class LessonsController < ApplicationController
     @lesson = Lesson.new(lesson_params)
     @lesson[:updated_count] = 0
     @lesson[:student_has_read_note] = false
-    @lesson[:lesson_duration_s] = 2 * 60 * 60
 
     if !current_user.admin
       @lesson[:user_id] = current_user.id
+
+      # Default lesson duration set by teacher
+      @lesson[:lesson_duration_m] = 2 * 60
     end
-    # set default values
+
+    # Define event type and Set default values
     if @lesson[:label] == "unavailable"
       @lesson[:attended] = nil
       @lesson[:paid] = nil
     else
       @lesson[:paid] = false
       @lesson[:label] = "lesson"
-      # # uncomment if adding end_time attribute to lessons
-      # finish_time = (lesson_params[:start_time].to_f() + 7200).to_formatted_s
-      # @lesson[:end_time] = finish_time
     end
 
     if @lesson.save
@@ -136,7 +136,7 @@ class LessonsController < ApplicationController
 
   def lesson_params
     params.require(:lesson)
-      .permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid, :label, :paid_method)
+      .permit(:start_time, :user_id, :attended, :student_notes, :private_notes, :paid, :label, :paid_method, :lesson_duration_m)
   end
 
   def find_lesson
@@ -151,6 +151,14 @@ class LessonsController < ApplicationController
   def increment_updated_count
     updated_count = @lesson[:updated_count] + 1
     @lesson.update( updated_count: updated_count )
+  end
+
+  def sec_to_min (sec)
+    return sec / 60
+  end
+
+  def min_to_sec (min)
+    return min * 60
   end
 
   def random_quote

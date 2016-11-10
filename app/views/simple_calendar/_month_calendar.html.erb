@@ -5,7 +5,7 @@
     <%= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view %>
   </div>
 
-  <table class="ui teal fixed table unstackable calendar-full-height">
+  <table class="ui teal fixed table celled unstackable calendar-full-height">
     <thead>
       <tr class="teal inverted">
         <% date_range.slice(0, 7).each do |day| %>

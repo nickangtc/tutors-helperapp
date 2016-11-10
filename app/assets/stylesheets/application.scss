@@ -35,6 +35,7 @@ h2 {
 }
 
 
+
 .calendar-full-height {
   height: 500px;
 }
@@ -48,7 +49,7 @@ p.marginless {
 }
 
 .tinytext {
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 // Modifying Semantic UI
@@ -69,7 +70,7 @@ p.marginless {
   .wday-6 {}
 
   .today {
-    border: 1px solid #0DB9B1;
+    background-color: #FDF9E4;
   }
   .past {}
   .future {}
@@ -86,10 +87,17 @@ p.marginless {
 
 // Table
 .cell-dim {
-  background-color: #FDF9E4;
+  background-color: #e0e0e0;
 }
 .disabled {
   a {
     color: grey;
   }
+}
+
+.ui.table {
+  border-collapse: collapse;
+}
+.ui.table td {
+  padding: 6px;
 }
