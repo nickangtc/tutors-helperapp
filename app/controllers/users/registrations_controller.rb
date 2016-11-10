@@ -10,7 +10,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     build_resource(sign_up_params)
-    resource[:admin] = false
+    # Hack to create admin 
+    if resource[:email] == "admin@admin.com"
+      resource[:admin] = true
+    else
+      resource[:admin] = false
+    end
 
     resource.save
     yield resource if block_given?
