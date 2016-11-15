@@ -6,7 +6,7 @@ In short, Tutor's helper is a CRM for personal tutors.
 
 Note: This is version 0.1 and many aspects have not yet been tested for reliability. Use in an actual tutor-student setting is discouraged for now.
 
-(screenshots)
+![tutor's helper demo gif](http://i.giphy.com/l2JhMwxOduNqgVZsc.gif)
 
 ## Features
 
@@ -19,6 +19,10 @@ Here's the current list of stable features:
 ## Technology stack
 
 As of version 0.1, Tutor's helper is built on Ruby on Rails and Postgres DB, with Semantic UI as the chosen front-end library.
+
+![ruby on rails logo](http://logos-download.com/wp-content/uploads/2016/09/Ruby_on_Rails_logo_small.png)
+![postgres sql logo](https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/postgres/logo.png)
+![semantic ui logo](https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2016/04/1461315888semantic.png)
 
 ## Development process
 
