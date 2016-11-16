@@ -16,6 +16,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       resource[:admin] = false
     end
+    # Default profile profile_pic_url
+    resource[:profile_pic_url] = 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-rapper-guy.png'
 
     resource.save
     yield resource if block_given?
