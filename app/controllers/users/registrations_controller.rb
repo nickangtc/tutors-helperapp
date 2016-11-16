@@ -17,7 +17,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
       resource[:admin] = false
     end
     # Default profile profile_pic_url
-    resource[:profile_pic_url] = 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-rapper-guy.png'
+    avatars = [
+      'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-rapper-guy.png',
+      'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-cupcake-guy.png',
+      'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-business-bear.png',
+      'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png',
+      'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-short-hair-girl.png',
+      'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-plaid-shirt-guy.png'
+    ]
+    rn = Random.new
+    ran_avatar = avatars[ rn.rand(0..avatars.length) ]
+    resource[:profile_pic_url] = ran_avatar
 
     resource.save
     yield resource if block_given?
