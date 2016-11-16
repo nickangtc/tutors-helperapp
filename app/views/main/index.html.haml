@@ -19,50 +19,52 @@
 
       %h4 Upcoming lessons
       %p Showing 10 nearest lessons.
-      %table.ui.table.teal
-        %thead
-          %tr
-            %th Lesson with
-            %th Date
-        %tbody
-          - @lessons_upcoming.each do |lesson|
+      - if @lessons_upcoming
+        %table.ui.table.teal
+          %thead
             %tr
-              %td
-                %h4.ui.image.header
-                  = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
-                  .content
-                    = User.find(lesson.user_id).name
-              %td
-                = lesson.start_time.to_formatted_s(:short)
+              %th Lesson with
+              %th Date
+          %tbody
+            - @lessons_upcoming.each do |lesson|
+              %tr
+                %td
+                  %h4.ui.image.header
+                    = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
+                    .content
+                      = User.find(lesson.user_id).name
+                %td
+                  = lesson.start_time.to_formatted_s(:short)
 
       %h4 Recently completed lessons
       %p Showing 10 most recently completed lessons.
-      %table.ui.table.yellow
-        %thead
-          %tr
-            %th Lesson details
-            %th Attendance
-            %th Notes to Student
-        %tbody
-          - @lessons_past.each do |lesson|
+      - if @lessons_past
+        %table.ui.table.yellow
+          %thead
             %tr
-              %td
-                %h4.ui.image.header
-                  = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
-                  .content
-                    = User.find(lesson.user_id).name
-                    .sub.header
-                      on
-                      = lesson.start_time.to_formatted_s(:short)
-              %td
-                - if lesson.attended == nil
-                  not marked yet
-                - elsif lesson.attended
-                  Attended
-                - elsif !lesson.attended
-                  Missed
-              %td
-                = lesson.student_notes || "no feedback yet"
+              %th Lesson details
+              %th Attendance
+              %th Notes to Student
+          %tbody
+            - @lessons_past.each do |lesson|
+              %tr
+                %td
+                  %h4.ui.image.header
+                    = image_tag lesson.user.profile_pic_url, class: "ui mini rounded image", style: "border-radius: 99em;"
+                    .content
+                      = User.find(lesson.user_id).name
+                      .sub.header
+                        on
+                        = lesson.start_time.to_formatted_s(:short)
+                %td
+                  - if lesson.attended == nil
+                    not marked yet
+                  - elsif lesson.attended
+                    Attended
+                  - elsif !lesson.attended
+                    Missed
+                %td
+                  = lesson.student_notes || "no feedback yet"
 
     -# Notifications panel
     .four.wide.column
